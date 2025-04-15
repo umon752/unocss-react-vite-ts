@@ -1,0 +1,91 @@
+//----------------------------
+// 捲軸
+//----------------------------
+// 隱藏捲軸
+.u-scrollbar-hidden
+  -ms-overflow-style: none
+  scrollbar-width: 0
+
+  &::-webkit-scrollbar
+    @apply bg-transparent hidden
+    
+  &::-webkit-scrollbar-track
+    @apply bg-transparent
+
+  &::-webkit-scrollbar-thumb
+    @apply bg-transparent hover:bg-transparent
+
+// 捲軸樣式
+.u-scrollbar
+  &::-webkit-scrollbar
+    @apply w-6
+
+  &::-webkit-scrollbar-button
+    @apply w-6 h-5
+
+  &::-webkit-scrollbar-track
+    @apply bg-light border-0 border-radius-50
+
+  &::-webkit-scrollbar-thumb
+    @apply bg-black bg-opacity-70 border-0 border-radius-50 hover:bg-black bg-opacity-70
+
+
+
+//----------------------------
+// 編輯器
+//----------------------------
+.u-editor 
+  @apply pt-20 md:pt-0
+
+  h1,h2,h3,h4,h5,h6 
+    @apply font-bold mb-10 md:mb-20
+
+  h1 
+    @apply u-h1
+
+  h2
+    @apply u-h2
+
+  h3
+    @apply u-h3
+
+  h4
+    @apply u-h4
+
+  h5 
+    @apply u-h5
+
+  h6
+    @apply u-h6
+
+  p 
+    @apply u-text
+
+  a 
+    @apply text-main
+
+  img
+    @apply w-full
+
+  ul,ol
+    @apply ps-24
+
+  ul
+    @apply list-revert
+
+  // table 
+  //   caption-side: initial
+  //   border-collapse: initial
+
+  // tbody, td, tfoot, th, thead, tr
+  //   @apply border-style-inherit border-width-inherit
+
+
+
+//----------------------------
+// fade in
+//----------------------------
+.u-fade-in
+  @apply opacity-0 u-transition-ease
+  &.has-animate
+    @apply opacity-100 u-transition-ease

@@ -1,0 +1,27 @@
+@use '../forward/_variables' as _var
+@use '../forward/_mixins' as _mix
+
+
+
+// 大標題群組
+.c-title 
+  display: inline-flex
+  flex-direction: column
+
+  & > * 
+    display: block
+
+.c-title-en 
+  +_mix.fz(32)
+  color: _var.$main 
+  font-weight: _var.$font-weight-bold
+  line-height: normal
+  +_mix.media-up(md)
+    +_mix.fz(75)
+
+.c-title-cn 
+  +_mix.fz(24)
+  font-weight: _var.$font-weight-bold
+  line-height: normal
+  +_mix.media-up(md)
+    +_mix.fz(38)

@@ -1,0 +1,134 @@
+//----------------------------
+// Catalog 目錄 :
+//----------------------------
+// - breakpoint
+// - text-hidden
+// - bg
+// - 文字
+//----------------------------
+@use "sass:math"
+@use "sass:map"
+@use "./_retina"
+
+
+
+//----------------------------
+// breakpoint
+//----------------------------
+/**
+ * 往上適應
+ * 引用方式: +media-up-num(自訂數值)
+ */
+@mixin media-up-num($num)
+  @media screen and (min-width: ($num * 1px))
+    @content
+
+/**
+ * 往下適應
+ * 引用方式: +media-up-num(自訂數值)
+ */
+@mixin media-down-num($num)
+  @media screen and (max-width: ($num * 1px - 0.02))
+    @content
+
+/**
+ * 範圍內適應
+ * 引用方式: +media-between($lower-breakpoint, $upper-breakpoint)
+ */
+// @mixin media-between($lower, $upper)
+//   $lower-breakpoint: map-get(_var.$breakpoints, $lower)
+//   $upper-breakpoint: map-get(_var.$breakpoints, $upper)
+//   @media (min-width: $lower-breakpoint) and (max-width: ($upper-breakpoint - 0.02))
+//     @content
+
+
+// 直立螢幕
+@mixin portrait
+  @media (orientation: portrait)
+    @content
+
+// 橫向螢幕
+@mixin landscape
+  @media (orientation: landscape)
+    @content
+
+
+// 觸碰裝置
+@mixin is-touch
+  @media (hover: none) 
+    @content
+
+// 非觸碰裝置
+@mixin not-touch
+  @media (hover: hover)
+    @content
+
+
+
+//----------------------------
+// text-hidden
+//----------------------------
+@mixin text-hidden($width, $height, $url)
+  white-space: nowrap
+  overflow: hidden
+  text-indent: 101%
+  background-repeat: no-repeat
+  background-size: contain
+  background-position: center
+  width: $width
+  height: $height
+  background-image: url($url)
+
+// 2x 圖
+@mixin text-hidden-2x($width, $height, $url)
+  @media only screen and (-webkit-min-device-pixel-ratio: 1.25),only screen and ( min--moz-device-pixel-ratio: 1.25),only screen and ( -o-min-device-pixel-ratio: 1.25/1),only screen and ( min-device-pixel-ratio: 1.25),only screen and ( min-resolution: 200dpi),only screen and ( min-resolution: 1.25dppx)
+    white-space: nowrap
+    overflow: hidden
+    text-indent: 101%
+    background-repeat: no-repeat
+    background-size: contain
+    background-position: center
+    width: $width
+    height: $height
+    background-image: url($url)
+
+
+
+//----------------------------
+// bg
+//----------------------------
+// @mixin bg-fixed($height: 100vh, $width: 100%, $position: center center)
+//   width: $width
+//   height: $height
+//   background-size: cover
+//   background-position: $position
+//   background-repeat: no-repeat
+//   background-attachment: fixed
+
+// // 需要使用 @2x 圖的背景圖
+// @mixin bg-cover-2x($height: auto, $width: 100%, $url)
+//   width: $width
+//   height: $height
+//   // retina mixin 使用方式： +retina(圖片路徑, 最大倍數(預設寫 2), background-size 設定, 其他 background 設定)
+//   +retina.retina($url, 2, cover)
+
+
+
+//----------------------------
+// font
+//----------------------------
+// font-weight
+/*  ===== firefox font weight bold 統一設定為 normal (firefox 在小字為粗體的時候會過粗) ===== */
+// @mixin fw-b
+//   font-weight: bold
+//   @-moz-document url-prefix()
+//     font-weight: normal
+
+
+
+//----------------------------
+// 間距
+//----------------------------
+// px 換算成 vw（以 1920px 為基準）
+@function calc-vw($px, $design-w: 1920)
+  @return math.div($px, $design-w) * 100 + vw

@@ -1,0 +1,66 @@
+@use '../forward/_variables' as _var
+@use '../forward/_mixins' as _mix
+
+
+
+.c-tab
+  &.swiper 
+    position: relative
+    width: fit-content
+    // overflow: initial
+    margin-bottom: 40px
+    &::before,&::after 
+      content: ''
+      width: 105px 
+      height: 100% 
+      position: absolute
+      top: 50% 
+      transform: translateY(-50%)
+      z-index: 5
+      display: none
+    // &::before 
+    //   left: 0 
+    //   background: linear-gradient(-90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%)
+    &::after
+      right: 0 
+      background: linear-gradient(270deg, _var.$white 0%, rgba(_var.$white, 0.68) 63.55%, rgba(_var.$white, 0.00) 100%)
+      transform: translateY(-50%)
+
+  .swiper-wrapper  
+    width: fit-content
+    
+  .swiper-slide
+    width: auto
+    &:last-child
+      margin-right: 0 !important
+
+  .swiper-button-next 
+    width: 10px 
+    height: 10px
+    +_mix.media-up(lg) 
+      display: none
+    &.swiper-button-disabled 
+      opacity: 0
+      pointer-events: none
+
+  .c-btn-rounded 
+    color: _var.$light-gray
+    padding: 16px 
+    min-width: 147px
+    +_mix.media-down(md) 
+      border: 1px solid _var.$light-gray
+    
+    &.is-active
+      color: _var.$white
+      border: none
+
+  // .c-tab-bg
+  //   width: 147px
+  //   height: 100%
+  //   background-color: _var.$main
+  //   border-radius: _var.$border-radius
+  //   position: absolute
+  //   top: 0
+  //   left: 0
+  //   transform-origin: left center
+  //   +_mix.ease

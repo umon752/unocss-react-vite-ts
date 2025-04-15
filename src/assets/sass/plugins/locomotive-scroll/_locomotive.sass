@@ -1,0 +1,16 @@
+@use '../../forward/_variables' as _var
+@use '../../forward/_mixins' as _mix
+
+
+
+[data-scroll-sticky]
+  position: relative
+  z-index: _var.$zindex-offcanvas-backdrop
+
+// 解決 locomotive 的 sticky 物件滾動會閃爍的問題
+.has-scroll-smooth
+  position: fixed
+  top: 0
+  right: 0
+  bottom: 0
+  left: 0

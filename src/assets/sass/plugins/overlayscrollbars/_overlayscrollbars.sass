@@ -1,0 +1,68 @@
+@use '../../forward/_variables' as _var
+@use '../../forward/_mixins' as _mix
+
+
+
+// os-custom
+  .os-custom > .os-scrollbar-horizontal
+  height: 6px
+
+.os-custom > .os-scrollbar-vertical
+  width: 6px
+
+.os-custom > .os-scrollbar-corner
+  width: 6px
+  background-color: transparent
+
+.os-custom > .os-scrollbar > .os-scrollbar-track
+  background: transparent
+
+.os-custom > .os-scrollbar-horizontal > .os-scrollbar-track:before,
+.os-custom > .os-scrollbar-vertical > .os-scrollbar-track:before
+  content: ''
+  display: block
+  position: absolute
+  background: _var.$light
+  border-radius: _var.$border-radius-pill
+
+.os-custom > .os-scrollbar-horizontal > .os-scrollbar-track:before,
+.os-custom > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle:before
+  height: 100%
+  left: 0
+  right: 0
+  top: 0
+
+.os-custom > .os-scrollbar-vertical > .os-scrollbar-track:before,
+.os-custom > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle:before
+  width: 100%
+  top: 0
+  bottom: 0
+  left: 0
+
+.os-custom > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle:before
+  content: ''
+  display: block
+  position: absolute
+  background: rgba(_var.$black, 0.7)
+  border-radius: _var.$border-radius-pill
+
+.os-custom > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle:hover:before,
+.os-custom > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle:hover:before
+  background: rgba(_var.$black, 0.7)
+  cursor: pointer
+
+.os-custom > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle.active:before,
+.os-custom > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle.active:before
+  background: rgba(_var.$black, 0.7)
+
+.os-custom > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle
+  height: 100%
+
+.os-custom > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle
+  width: 100%
+
+.os-custom.os-host-transition > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle:before
+  transition: height 0.3s, margin-top 0.3s, background 0.2s
+
+.os-custom.os-host-transition > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle:before
+  transition: width 0.3s, margin-left 0.3s, background 0.2s

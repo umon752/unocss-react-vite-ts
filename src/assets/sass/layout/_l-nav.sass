@@ -1,0 +1,22 @@
+@use '../forward/_variables' as _var
+@use '../forward/_mixins' as _mix
+
+
+
+.l-nav
+  background-color: _var.$white
+  position: sticky
+  top: 0 
+  left: 0
+  padding: 20px
+  z-index: _var.$zindex-offcanvas-backdrop
+  +_mix.ease
+
+  &__logo 
+    +_mix.text-hidden(251px, 45px, '../images/layout/logo.svg')
+    +_mix.text-hidden-2x(251px, 45px, '../images/layout/logo@2x.svg')
+
+  &__logo__inner 
+    width: 100%
+    height: 100%
+    position: relative

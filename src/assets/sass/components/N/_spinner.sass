@@ -1,0 +1,45 @@
+//----------------------------
+// Catalog 目錄 :
+//----------------------------
+// - base (bootstrap)
+// - custom
+//----------------------------
+@use '../forward/_variables' as _var
+@use '../forward/_mixins' as _mix
+
+
+
+//----------------------------
+// custom
+//----------------------------
+// 滿版顯示 (有遮罩背景)
+.c-spinner
+  position: fixed
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
+  display: flex
+  justify-content: center
+  align-items: center
+  background-color: rgba(_var.$black, .5)
+  opacity: 0
+  z-index: -1
+  transition: opacity 300ms
+  &.is-active 
+    opacity: 1
+    z-index: _var.$zindex-max
+    transition: opacity 300ms
+
+// 區塊內顯示 (沒有遮罩背景)
+.c-inner-spinner
+  display: flex
+  justify-content: center
+  align-items: center
+  opacity: 0
+  z-index: -1
+  transition: opacity 300ms
+  &.is-active 
+    opacity: 1
+    z-index: _var.$zindex-max
+    transition: opacity 300ms

@@ -1,0 +1,24 @@
+@use '../forward/_variables' as _var
+@use '../forward/_mixins' as _mix
+
+
+
+.c-share
+  display: flex
+  align-items: center
+
+  .c-share-item
+    margin-right: 6px
+    +_mix.media-up(lg)
+      margin-right: 12px
+      
+    &:last-child
+      margin-right: 0
+      +_mix.media-up(lg)
+        margin-right: 0
+  
+  .c-share-icon 
+    +_mix.img-contain(28px,28px)
+    +_mix.media-up(lg)
+      width: 32px
+      height: 32px

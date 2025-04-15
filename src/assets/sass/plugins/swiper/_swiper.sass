@@ -1,0 +1,47 @@
+//----------------------------
+// Catalog 目錄 :
+//----------------------------
+// - base
+// - custom
+//----------------------------
+@use '../../forward/_variables' as _var
+@use '../../forward/_mixins' as _mix
+
+
+
+//----------------------------
+// base
+//----------------------------
+.swiper
+  // button
+  .swiper-button-next,
+  .swiper-button-prev
+    &::after
+      display: none
+    &:hover
+      +_mix.linear
+    &:focus, &:focus-visible
+      outline: none
+      border: none
+
+    .icon 
+      color: _var.$main
+  
+  // bullet
+  .swiper-pagination-bullet
+    &:focus, &:focus-visible
+      outline: none 
+      border: none
+
+  // .swiper-wrapper
+    // 自訂過渡效果
+    // transition: transform 1s cubic-bezier(0.65, 0, 0.43, 0.99) !important
+    // 消除 swiper 自動播放過渡效果
+    // transition-timing-function: linear !important
+    // margin: 0 auto !important
+
+
+
+//----------------------------
+// custom
+//----------------------------

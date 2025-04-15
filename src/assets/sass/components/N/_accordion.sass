@@ -1,0 +1,88 @@
+//----------------------------
+// Catalog 目錄 :
+//----------------------------
+// - base (bootstrap)
+// - custom
+//----------------------------
+@use '../forward/_variables' as _var
+@use '../forward/_mixins' as _mix
+
+
+
+//----------------------------
+// base (bootstrap)
+//----------------------------
+.accordion-button:focus 
+  box-shadow: none 
+  border: none
+
+.accordion-button:not(.collapsed) 
+  color: currentColor
+  background-color: transparent
+  box-shadow: none
+
+.accordion-button
+  background-color: transparent
+  padding: 0
+  &::after 
+    display: none
+
+.accordion-body 
+  padding: 0
+
+.accordion-item
+  background-color: transparent
+  border: none
+
+
+
+//----------------------------
+// custom
+//----------------------------
+.c-accordion
+  & * 
+    line-height: _var.$line-height-base
+
+  &-num 
+    color: _var.$minor 
+    font-weight: _var.$font-weight-bold 
+    font-family: _var.$en-font
+    flex-shrink: 0
+    margin-right: 20px
+    +_mix.media-up(sm)
+      margin-right: 40px
+    +_mix.media-up(xl)
+      margin-right: 80px
+
+  &-title 
+    width: 100%
+    font-weight: _var.$font-weight-bold 
+
+  &-icon
+    +_mix.bg-contain(20px, 20px) 
+    background-image: url('../images/icon/symbol-defs.svg#icon-open')
+    flex-shrink: 0
+    margin-left: 20px
+    +_mix.linear
+    +_mix.media-up(sm)
+      margin-left: 40px
+    +_mix.media-up(xl)
+      margin-left: 80px
+
+  .accordion-button 
+    display: flex
+    justify-content: space-between
+    border-bottom: 1px dotted _var.$minor
+    padding: 20px 0
+    +_mix.media-up(sm)
+      padding: 20px 22px
+    +_mix.media-up(xl)
+      padding: 20px 44px
+    &:not(.collapsed) 
+      .c-accordion-icon 
+        background-image: url('../images/icon/symbol-defs.svg#icon-close')
+        transform: rotate(180deg)
+        +_mix.ease
+
+  .accordion-body 
+    padding: 26px 44px

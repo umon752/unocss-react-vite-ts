@@ -1,0 +1,26 @@
+.c-breadcrumb
+  @apply relative z-1030
+
+  &__list 
+    @apply flex flex-wrap
+
+  &__list__item
+    @apply relative flex text-dark ps-20 ms-4
+    &:first-child
+      @apply ps-0
+      &::before 
+        @apply hidden
+
+    &::before
+      content: ''
+      @apply u-bg-contain w-16 h-16 i-iconamoon:arrow-right-2-light v-middle absolute left-0 top-50% translate-y--50%
+
+    &.is-active 
+      &::before
+        @apply text-main
+
+      .item__link
+        @apply text-main font-bold hover:text-main
+
+    .item__link
+      @apply block text-dark hover:text-dark

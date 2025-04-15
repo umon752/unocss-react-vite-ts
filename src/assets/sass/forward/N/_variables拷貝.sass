@@ -1,0 +1,590 @@
+//----------------------------
+// Catalog 目錄 :
+//----------------------------
+// - breakpoint (同 bootstrap5)
+// - color
+// - box-shadow
+// - border-radius
+// - font-weight
+// - font-family
+// - line-height
+// - z-index
+// - gutter
+// - nav
+//----------------------------
+
+
+
+// ----------------------------
+// - breakpoint (同 bootstrap5)
+// ----------------------------
+// tiny、xs、jumbo is custom
+$breakpoints: ("tiny": 375px, "xs": 414px, "sm": 576px, "md": 768px, "lg": 992px, "xl": 1200px, "xxl": 1400px, "jumbo": 1620px)
+
+
+
+// ---------------------------
+// - color
+// ---------------------------
+$main: #7F908F
+$minor: #b45e0e
+$white: #ffffff
+$black: #000000
+$light: #F0F0F0
+$light-gray: #999999
+$dark: #1E1E1E
+$error: #FE2828
+$success: #1FA809
+
+// $colors: (
+//   main: #00ff00,
+//   main-dark: #0dbc1c,
+//   minor: #66fcfc,
+//   white: #ffffff,
+//   black: #000000,
+//   light: #cecece,
+//   dark: #0f1214,
+//   error: red,
+// );
+
+// bg、text
+// @mixin colors($breakpoint: null) {
+//   @each $key,
+//   $value in $colors {
+//     @if ($breakpoint==null) {
+//       .text-#{$key} {
+//         color: $value !important;
+//       }
+
+//       .bg-#{$key} {
+//         background: $value !important;
+//       }
+//     }
+
+//     @else {
+//       .text#{$breakpoint}-#{$key} {
+//         color: $value !important;
+//       }
+
+//       .bg#{$breakpoint}-#{$key} {
+//         background: $value !important;
+//       }
+//     }
+//   }
+// }
+
+// @include colors();
+// @include media-up(tiny) {
+//   @include colors(-tiny);
+// }
+// @include media-up(xs) {
+//   @include colors(-xs);
+// }
+// @include media-up(sm) {
+//   @include colors(-sm);
+// }
+// @include media-up(md) {
+//   @include colors(-md);
+// }
+// @include media-up(lg) {
+//   @include colors(-lg);
+// }
+// @include media-up(xl) {
+//   @include colors(-xl);
+// }
+// @include media-up(xxl) {
+//   @include colors(-xxl);
+// }
+// @include media-up(jumbo) {
+//   @include colors(-jumbo);
+// }
+
+
+
+// ----------------------------
+// - box-shadow
+// ----------------------------
+// $box-shadow: 0 0 0.5rem rgba(#fff, 0.3)
+
+
+
+// ----------------------------
+// - border-radius
+// ----------------------------
+$border-radius: 8px
+$border-radius-pill: 50px
+
+
+// ----------------------------
+// - font-weight
+// ----------------------------
+$font-weight-lighter: lighter
+$font-weight-light: 300
+$font-weight-normal: 400 // base
+$font-weight-middle: 500
+$font-weight-middler: 600
+$font-weight-bold: 700
+$font-weight-black: 800
+
+
+// $font-weights: (
+//   lighter: $font-weight-lighter,
+//   light: $font-weight-light,
+//   normal: $font-weight-normal,
+//   middle: $font-weight-middle,
+//   middler: $font-weight-middler,
+//   bold: $font-weight-bold,
+//   bolder: $font-weight-bolder,
+// );
+
+// fw
+// @mixin font-weights($breakpoint: null) {
+//   @each $key, $value in $font-weights {
+//     @if ($breakpoint==null) {
+//       .fw-#{$key} {
+//         font-weight: $value !important;
+//       }
+//     } @else {
+//       .fw#{$breakpoint}-#{$key} {
+//         font-weight: $value !important;
+//       }
+//     }
+//   }
+// }
+
+// @include font-weights();
+// @include media-up(tiny) {
+//     @include font-weights(-tiny);
+//   }
+// @include media-up(xs) {
+//   @include font-weights(-xs);
+// }
+// @include media-up(sm) {
+//   @include font-weights(-sm);
+// }
+// @include media-up(md) {
+//   @include font-weights(-md);
+// }
+// @include media-up(lg) {
+//   @include font-weights(-lg);
+// }
+// @include media-up(xl) {
+//   @include font-weights(-xl);
+// }
+// @include media-up(xxl) {
+//   @include font-weights(-xxl);
+// }
+// @include media-up(jumbo) {
+//   @include font-weights(-jumbo);
+// }
+
+
+
+// ----------------------------
+// - font-family
+// ----------------------------
+// 中文
+@font-face 
+  font-family: 'Uniform'
+  src: url(../fonts/Uniform.otf)
+  font-weight: $font-weight-normal
+  font-display: swap
+
+@font-face 
+  font-family: 'Uniform'
+  src: url(../fonts/Uniform-Medium.otf)
+  font-weight: $font-weight-middle
+  font-display: swap
+
+@font-face 
+  font-family: 'Uniform'
+  src: url(../fonts/Uniform-Bold.otf)
+  font-weight: $font-weight-bold
+  font-display: swap
+
+
+// 中文
+$base-font: 'Noto Sans TC', sans-serif
+
+// 英文
+$en-font: 'Uniform', sans-serif
+
+
+
+// ----------------------------
+// - line-height
+// ----------------------------
+$line-height-sm: 100%
+$line-height-base: normal // base
+$line-height-md: 130%
+$line-height-lg: 145%
+$line-height-xl: 160%
+$line-height-xxl: 170%
+
+
+
+// ----------------------------
+// - z-index
+// ----------------------------
+$zindex-dropdown: 1000
+$zindex-sticky: 1020
+$zindex-fixed: 1030
+$zindex-offcanvas-backdrop: 1040
+$zindex-offcanvas: 1045
+$zindex-modal-backdrop: 1050
+$zindex-modal: 1055 // BS modal
+$zindex-popover: 1070
+$zindex-tooltip: 1080
+$zindex-max: 9999
+
+
+
+// ----------------------------
+// - gutter
+// ----------------------------
+$gutter: 30px
+$gutter-mob: 10px
+
+
+
+// ----------------------------
+// - navH
+// ----------------------------
+$navH: 80px
+$navH-mob: 60px
+
+
+// ----------------------------
+// - font-size
+// ----------------------------
+// $font-size-base: 1rem;
+// $font-sizes: (
+//   1: $font-size-base * 1.5, // 24px
+//   2: $font-size-base * 1.4375, // 23px
+//   3: $font-size-base * 1.375, // 22px
+//   4: $font-size-base * 1.3125, // 21px
+//   5: $font-size-base * 1.25, // 20px
+//   6: $font-size-base * 1.1875, // 19px
+//   7: $font-size-base * 1.125, // 18px
+//   8: $font-size-base * 1.0625, // 17px
+//   9: $font-size-base, // 16px
+//   10: $font-size-base * 0.9375, // 15px
+//   11: $font-size-base * 0.875, // 14px
+//   12: $font-size-base * 0.8125, // 13px
+//   13: $font-size-base * 0.6875, // 12px
+// );
+
+// // fs
+// @mixin font-sizes($breakpoint: null) {
+//   @each $key,
+//   $value in $font-sizes {
+//     @if ($breakpoint==null) {
+//       .fs-#{$key} {
+//         font-size: $value !important;
+//       }
+//     }
+
+//     @else {
+//       .fs#{$breakpoint}-#{$key} {
+//         font-size: $value !important;
+//       }
+//     }
+//   }
+// }
+
+// @include font-sizes();
+// @include media-up(tiny) {
+//   @include font-sizes(-tiny);
+// }
+// @include media-up(xs) {
+//   @include font-sizes(-xs);
+// }
+// @include media-up(sm) {
+//   @include font-sizes(-sm);
+// }
+// @include media-up(md) {
+//   @include font-sizes(-md);
+// }
+// @include media-up(lg) {
+//   @include font-sizes(-lg);
+// }
+// @include media-up(xl) {
+//   @include font-sizes(-xl);
+// }
+// @include media-up(xxl) {
+//   @include font-sizes(-xxl);
+// }
+// @include media-up(jumbo) {
+//   @include font-sizes(-jumbo);
+// }
+
+
+// ----------------------------
+// - spacer
+// ----------------------------
+// $spacer: 1rem !default;
+// // 2px 為基準單位
+// $spacers: (
+//   0: 0,
+//   1: $spacer * .125,
+//   2: $spacer * .25,
+//   3: $spacer * .375,
+//   4: $spacer * .5,
+//   5: $spacer * .625,
+//   6: $spacer * .75,
+//   7: $spacer * .875,
+//   8: $spacer,
+//   9: $spacer * 1.125,
+//   10: $spacer * 1.25,
+//   11: $spacer * 1.375,
+//   12: $spacer * 1.5,
+//   13: $spacer * 1.625,
+//   14: $spacer * 1.75,
+//   15: $spacer * 1.875,
+//   16: $spacer * 2,
+//   17: $spacer * 2.125,
+//   18: $spacer * 2.25,
+//   19: $spacer * 2.375,
+//   20: $spacer * 2.5,
+//   21: $spacer * 2.625,
+//   22: $spacer * 2.75,
+//   23: $spacer * 2.875,
+//   24: $spacer * 3,
+//   25: $spacer * 3.125,
+//   26: $spacer * 3.25,
+//   27: $spacer * 3.375,
+//   28: $spacer * 3.5,
+//   29: $spacer * 3.625,
+//   30: $spacer * 3.75,
+//   31: $spacer * 3.875,
+//   32: $spacer * 4,
+//   33: $spacer * 4.125,
+//   34: $spacer * 4.25,
+//   35: $spacer * 4.375,
+//   36: $spacer * 4.5,
+//   37: $spacer * 4.625,
+//   38: $spacer * 4.75,
+//   39: $spacer * 4.875,
+//   40: $spacer * 5,
+//   41: $spacer * 5.125,
+//   42: $spacer * 5.25,
+//   43: $spacer * 5.375,
+//   44: $spacer * 5.5,
+//   45: $spacer * 5.625,
+//   46: $spacer * 5.75,
+//   47: $spacer * 5.875,
+//   48: $spacer * 6,
+//   49: $spacer * 6.125,
+//   50: $spacer * 6.25,
+//   51: $spacer * 6.375, // 100px
+//   52: $spacer * 6.5,
+//   53: $spacer * 6.625,
+//   54: $spacer * 6.75,
+//   55: $spacer * 6.875,
+//   56: $spacer * 7,
+//   57: $spacer * 7.125,
+//   58: $spacer * 7.25,
+//   59: $spacer * 7.375,
+//   60: $spacer * 7.5, // 120px
+// );
+
+// // direction
+// $directions: (
+//  t: top,
+// 	e: right,
+// 	b: bottom,
+// 	s: left
+// );
+
+// // m、p
+// @mixin spacers($breakpoint: null) {
+//   @each $key,
+//   $value in $directions {
+//     @each $spacer-key,
+//     $spacer-value in $spacers {
+
+//       @if ($spacer-key==0) {
+//         .m#{$breakpoint}-#{$spacer-key} {
+//           margin: 0 !important;
+//         }
+
+//         .p#{$breakpoint}-#{$spacer-key} {
+//           padding: 0 !important;
+//         }
+
+//         .mx#{$breakpoint}-#{$spacer-key} {
+//           margin-left: 0 !important;
+//           margin-right: 0 !important;
+//         }
+
+//         .px#{$breakpoint}-#{$spacer-key} {
+//           padding-left: 0 !important;
+//           padding-right: 0 !important;
+//         }
+
+//         .my#{$breakpoint}-#{$spacer-key} {
+//           margin-top: 0 !important;
+//           margin-bottom: 0 !important;
+//         }
+
+//         .py#{$breakpoint}-#{$spacer-key} {
+//           padding-top: 0 !important;
+//           padding-bottom: 0 !important;
+//         }
+
+//         .m#{$key}#{$breakpoint}-#{$spacer-key} {
+//           margin-#{$value}: 0 !important;
+//         }
+
+//         .p#{$key}#{$breakpoint}-#{$spacer-key} {
+//           padding-#{$value}: 0 !important;
+//         }
+//       }
+
+//       @else {
+//         .m#{$breakpoint}-#{$spacer-key} {
+//           margin-left: #{$spacer-value} !important;
+//           margin-right: #{$spacer-value} !important;
+//           margin-top: #{$spacer-value} !important;
+//           margin-bottom: #{$spacer-value} !important;
+//         }
+
+//         .p#{$breakpoint}-#{$spacer-key} {
+//           padding-left: #{$spacer-value} !important;
+//           padding-right: #{$spacer-value} !important;
+//           padding-top: #{$spacer-value} !important;
+//           padding-bottom: #{$spacer-value} !important;
+//         }
+
+//         .mx#{$breakpoint}-#{$spacer-key} {
+//           margin-left: #{$spacer-value} !important;
+//           margin-right: #{$spacer-value} !important;
+//         }
+
+//         .px#{$breakpoint}-#{$spacer-key} {
+//           padding-left: #{$spacer-value} !important;
+//           padding-right: #{$spacer-value} !important;
+//         }
+
+//         .my#{$breakpoint}-#{$spacer-key} {
+//           margin-top: #{$spacer-value} !important;
+//           margin-bottom: #{$spacer-value} !important;
+//         }
+
+//         .py#{$breakpoint}-#{$spacer-key} {
+//           padding-top: #{$spacer-value} !important;
+//           padding-bottom: #{$spacer-value} !important;
+//         }
+
+//         .m#{$key}#{$breakpoint}-#{$spacer-key} {
+//           margin-#{$value}: #{$spacer-value} !important;
+//         }
+
+//         .p#{$key}#{$breakpoint}-#{$spacer-key} {
+//           padding-#{$value}: #{$spacer-value} !important;
+//         }
+//       }
+//     }
+//   }
+// }
+
+// // .m-auto、.p-auto
+// @each $key,
+// $value in $directions {
+//   .m#{$key}-auto {
+//     margin-#{$value}: auto !important;
+//   }
+// }
+
+// .mx-auto {
+//   margin: 0 auto !important;
+// }
+
+// @include spacers();
+// @include media-up(tiny) {
+//   @include spacers(-tiny);
+// }
+// @include media-up(xs) {
+//   @include spacers(-xs);
+// }
+// @include media-up(sm) {
+//   @include spacers(-sm);
+// }
+// @include media-up(md) {
+//   @include spacers(-md);
+// }
+// @include media-up(lg) {
+//   @include spacers(-lg);
+// }
+// @include media-up(xl) {
+//   @include spacers(-xl);
+// }
+// @include media-up(xxl) {
+//   @include spacers(-xxl);
+// }
+// @include media-up(jumbo) {
+//   @include spacers(-jumbo);
+// }
+
+
+
+// ----------------------------
+// - width
+// ----------------------------
+// $widths: (
+//   50: 50%,
+//   100: 100%,
+//   auto: auto,
+// );
+
+// // w
+// @mixin widths($breakpoint: null) {
+//   @each $key,
+//   $value in $widths {
+//     @if ($breakpoint==null) {
+//       .w-#{$key} {
+//         width: $value !important;
+//       }
+//     }
+
+//     @else {
+//       .w#{$breakpoint}-#{$key} {
+//         width: $value !important;
+//       }
+//     }
+//   }
+// }
+
+// @include widths();
+// @include media-up(tiny) {
+//   @include widths(-tiny);
+// }
+// @include media-up(xs) {
+//   @include widths(-xs);
+// }
+// @include media-up(sm) {
+//   @include widths(-sm);
+// }
+// @include media-up(md) {
+//   @include widths(-md);
+// }
+// @include media-up(lg) {
+//   @include widths(-lg);
+// }
+// @include media-up(xl) {
+//   @include widths(-xl);
+// }
+// @include media-up(xxl) {
+//   @include widths(-xxl);
+// }
+// @include media-up(jumbo) {
+//   @include widths(-jumbo);
+// }
+
+
+
+// ----------------------------
+// - easing
+// ----------------------------
+// $easeOutBack: cubic-bezier(.1,.9,.61,1.04);
+// $easeOutExpo: cubic-bezier(0.16, 1, 0.3, 1);

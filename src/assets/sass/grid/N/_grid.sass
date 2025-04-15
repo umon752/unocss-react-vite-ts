@@ -1,0 +1,42 @@
+//----------------------------
+// Catalog 目錄 :
+//----------------------------
+// - 覆蓋 Bootstrap 設定
+// - custom
+//----------------------------
+@use '../forward/_variables' as _var
+@use '../forward/_mixins' as _mix
+
+
+
+//----------------------------
+// 覆蓋 Bootstrap 設定
+//----------------------------
+.container-fluid 
+  padding-left: calc(_var.$gutter-mob * 2)
+  padding-right: calc(_var.$gutter-mob * 2)
+
+.container
+  padding-left: calc(_var.$gutter-mob * 2)
+  padding-right: calc(_var.$gutter-mob * 2)
+  +_mix.media-up(md)
+    padding-left: 0
+    padding-right: 0
+  +_mix.media-up(xxl)
+    max-width: 100%
+    padding-right: 14vw
+    padding-left: 14vw
+
+.row
+  margin-left: -(calc(_var.$gutter-mob / 2))
+  margin-right: -(calc(_var.$gutter-mob / 2))
+  +_mix.media-up(md)
+    margin-left: -(calc(_var.$gutter / 2))
+    margin-right: -(calc(_var.$gutter / 2))
+
+  & > *
+    padding-right: calc(_var.$gutter-mob / 2)
+    padding-left: calc(_var.$gutter-mob / 2)
+    +_mix.media-up(md)
+      padding-right: calc(_var.$gutter / 2)
+      padding-left: calc(_var.$gutter / 2)
