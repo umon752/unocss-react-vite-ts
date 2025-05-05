@@ -1,6 +1,6 @@
 // components
-import DefaultImg from './DefaultImg';
-import LinkRange from './LinkRange';
+import DefaultImg from '@/views/components/DefaultImg';
+import LinkRange from '@/views/components/LinkRange';
 
 type CardProps = {
   img: {

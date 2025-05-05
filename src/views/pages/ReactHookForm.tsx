@@ -3,12 +3,13 @@ import { useForm, FieldError } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 // components
-import Select from '../components/Select';
+import Select from '@/views/components/Select';
 
 const formRequestSchema = z.object({
   input: z.string().min(1, {message: '必填'}),
   email: z.string().min(1, {message: '必填'}).email('email 格式不正確'),
   select: z.string().nonempty('必填'),
+  select_1: z.string().optional(),
   check: z.array(z.string()).min(1, { message: '必填' }),
   radio: z.string().min(1, {message: '必填'}),
   textarea: z.string().max(10, {message: '不可超過 10 字'}).optional(),
@@ -104,6 +105,26 @@ const ReactHookForm: React.FC = () => {
             <div className="text-gray u-caption mt-4">備註文字</div>
           </div>
         </div>
+        {/* select optional */}
+        <div className="mb-20">
+          <div className="mb-4">
+            <label htmlFor="select_1" className="u-h4">select</label>
+          </div>
+          <div>
+            <Select name={'select_1'} 
+              // control={control} 
+              options={[
+                { label: '蘋果', value: 'apple' },
+                { label: '香蕉', value: 'banana' },
+                { label: '芒果', value: 'mango' },
+              ]}
+            />
+            {errors['select_1'] && (
+              <p className="text-error u-caption mt-4">{(errors['select_1'] as FieldError).message}</p>
+            )}
+            <div className="text-gray u-caption mt-4">備註文字</div>
+          </div>
+        </div>
         {/* checkbox */}
         <div className="mb-20">
           <div className="mb-4">
@@ -170,7 +191,7 @@ const ReactHookForm: React.FC = () => {
             <div className="text-gray u-caption mt-4">備註文字</div>
           </div>
         </div>
-        {/* textarea */}
+        {/* textarea optional */}
         <div className="mb-20">
           <div className="mb-4">
             <label htmlFor="textarea" className="u-h4">textarea</label>

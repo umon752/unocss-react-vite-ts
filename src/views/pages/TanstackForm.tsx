@@ -1,8 +1,8 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
+// import { zodResolver } from '@hookform/resolvers/zod';
 // components
-import Select from '../components/Select';
+import Select from '@/views/components/Select';
 
 const formRequestSchema = z.object({
   input: z.string().min(1, {message: '必填'}),

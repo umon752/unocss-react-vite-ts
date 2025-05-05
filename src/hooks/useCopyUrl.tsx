@@ -2,10 +2,22 @@
 // 複製連結
 //----------------------------
 import { useDispatch } from 'react-redux';
-import { showToast } from '../../../redux/slice/toastSlice';
+import { showToast } from '../redux/slice/toastSlice';
+
+export const useCopyUrl = () => {
+  const dispatch = useDispatch();
+  return () => {
+    const copyUrl = window.location.href;
+    if (window.isSecureContext && navigator.clipboard) {
+      securedCopyToClipboard(copyUrl, dispatch);
+    } else {
+      unsecuredCopyToClipboard(copyUrl, dispatch);
+    }
+  };
+}
 
 // 複製功能(新)
-function securedCopyToClipboard(text: string, dispatch: any) {
+const securedCopyToClipboard = (text: string, dispatch: any) => {
   navigator.clipboard.writeText(text)
   .then(() => {
     // 顯示 toast
@@ -23,7 +35,7 @@ function securedCopyToClipboard(text: string, dispatch: any) {
 }
   
 // 複製功能(舊)
-function unsecuredCopyToClipboard(text: string, dispatch: any) {
+const unsecuredCopyToClipboard = (text: string, dispatch: any) => {
   const textArea = document.createElement('input');
   textArea.value = text;
   document.body.appendChild(textArea);
@@ -43,17 +55,4 @@ function unsecuredCopyToClipboard(text: string, dispatch: any) {
     console.error('Unable to copy to clipboard', error);
   }
   document.body.removeChild(textArea);
-}
-
-// 導出一個 React Hook
-export function useCopyUrl() {
-  const dispatch = useDispatch();
-  return () => {
-    const copyUrl = window.location.href;
-    if (window.isSecureContext && navigator.clipboard) {
-      securedCopyToClipboard(copyUrl, dispatch);
-    } else {
-      unsecuredCopyToClipboard(copyUrl, dispatch);
-    }
-  };
 }

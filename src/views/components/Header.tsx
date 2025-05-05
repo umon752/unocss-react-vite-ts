@@ -1,5 +1,5 @@
 // components
-import DefaultImg from './DefaultImg';
+import DefaultImg from '@/views/components/DefaultImg';
 
 type HeaderProps = {
   img: {
@@ -15,8 +15,8 @@ type HeaderProps = {
 };
 
 const Header: React.FC<HeaderProps> = ({ img, content }) => {
-  const defaultRatio = '1920x500';
-  const headerClass = `relative overflow-hidden u-ratio-[${img.ratio ? img.ratio : defaultRatio}]`;
+  const defaultRatio = '`u-ratio-[1920x500]';
+  const headerClass = img.ratio ? img.ratio : defaultRatio;
   const imgClass = `${img.className ? img.className : ''}`;
 
   return (

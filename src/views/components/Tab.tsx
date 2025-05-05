@@ -1,4 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
+// hooks
+import { useDrag } from '@/hooks/useDrag';
 
 type TabProps = {
   title: string;
@@ -12,6 +14,8 @@ type TabListProps = {
 const Tab: React.FC<TabListProps> = ({ array = [] }) => {
   const [activeIndex, setActiveIndex] = useState<number | null>(0);
   const [showIndex, setShowIndex] = useState<number | null>(0);
+  const targetRef = useRef<HTMLDivElement | null>(null);
+  const btnsRef = useRef<HTMLButtonElement[]>([]);
 
   const toggleTab = (index: number) => {
     setActiveIndex(activeIndex === index ? null : index);
@@ -20,12 +24,30 @@ const Tab: React.FC<TabListProps> = ({ array = [] }) => {
     }, 10);
   };
 
+  useEffect(() => {
+    // console.log('btnsRef', btnsRef.current);
+    // console.log('targetRef', targetRef.current);
+    useDrag(targetRef, btnsRef)
+  }, [])
+
   return (
     <div className="flex flex-(col) gap-10">
       <div>
-        <div className="flex flex-(items-center) gap-6 pb-10 overflow-x-auto">
+        <div className="flex flex-(items-center) gap-6 pb-10 overflow-x-auto u-scrollbar-hidden" ref={targetRef}>
           {array.map((item, index) => (
-            <button type="button" className={`w-100% relative text-center p-10 ${activeIndex === index ? 'bg-blue text-white' : 'bg-blue-200'}`} key={index} onClick={() => toggleTab(index)}>{item.title}</button>
+            <button
+              type="button"
+              className={`relative text-center text-nowrap flex-shrink-0 p-10 ${activeIndex === index ? 'bg-blue text-white' : 'bg-blue-200'}`}
+              key={index}
+              onClick={() => toggleTab(index)}
+              ref={(el) => {
+                if (el) {
+                  btnsRef.current[index] = el;
+                }
+              }}
+            >
+              {item.title}
+            </button>
           ))}
         </div>
 

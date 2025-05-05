@@ -1,5 +1,5 @@
 // components
-import Editor from './Editor';
+import Editor from '@/views/components/Editor';
 
 type NewEditorProps = {};
 

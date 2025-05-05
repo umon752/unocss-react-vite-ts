@@ -1,5 +1,5 @@
 // components
-// import Select from '../components/Select';
+// import Select from '@/views/components/Select';
 
 const Form: React.FC = () => {
   return (

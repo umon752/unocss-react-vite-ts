@@ -326,13 +326,34 @@ export default defineConfig({
     // })
   ],
   variants: [
+    // 支援 @group-hover:xxx / @parent-hover:xxx
     (matcher) => {
-      if (!matcher.startsWith('@hover:')) return matcher
+      const match = matcher.match(/^@(\w+)-(\w+):/)
+      if (!match) return
+
+      const [, parentClass, pseudo] = match
+      const raw = matcher.slice(match[0].length)
+
       return {
-        matcher: matcher.slice(7),
-        parent: '@media (hover: hover)',
+        matcher: raw,
+        selector: (s) => `.${parentClass}:${pseudo} ${s}`,
+        parent: '@media (hover: hover)', // 只在非觸控裝置有效
       }
-    }
+    },
+    // @peer-hover:xxx
+    (matcher) => {
+      const match = matcher.match(/^@peer-(\w+):/)
+      if (!match) return
+
+      const [, pseudo] = match
+      const raw = matcher.slice(match[0].length)
+
+      return {
+        matcher: raw,
+        selector: (s) => `.peer:${pseudo} ~ ${s}`, // 相鄰兄弟元素
+        parent: '@media (hover: hover)', // 只在非觸控裝置有效
+      }
+    },
   ],
   transformers: [
     transformerCompileClass(),

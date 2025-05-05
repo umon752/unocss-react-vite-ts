@@ -5,7 +5,7 @@ type Option = { label: string; value: string };
 
 type SelectProps = {
   name: string;
-  control: any;
+  control?: any;
   options: Option[];
   placeholder?: string;
 };
@@ -17,10 +17,10 @@ export const Select: React.FC<SelectProps> = ({
 }) => {
   const {
     field: { value, onChange },
-  } = useController({ 
+  } = control ? useController({ 
     name, 
     control,
-  });
+  }) : { field: { value: '', onChange: () => {} } };
 
   const {
     isOpen,

@@ -1,26 +1,27 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-// helpers
-import scrollToTop from '../../assets/tsx/helpers/scrollToTop';
-import shareSocial from '../../assets/tsx/helpers/shareSocial';
-import { useCopyUrl } from '../../assets/tsx/helpers/copyUrl';
+// hooks
+import { useScrollToTop } from '@/hooks/useScrollToTop';
+import { useShareSocial } from '@/hooks/useShareSocial';
+import { useCopyUrl } from '@/hooks/useCopyUrl';
+import { useObserverFade } from '@/hooks/useObserverFade';
 // components
-import DefaultImg from '../components/DefaultImg';
-import Breadcrumb from '../components/Breadcrumb';
-import Pagination from '../components/Pagination';
-import Tag from '../components/Tag';
-import Card from '../components/Card';
-import Header from '../components/Header';
-import Editor from '../components/Editor';
-import NewEditor from '../components/NewEditor';
-import Spinner from '../components/Spinner';
-import Accordion from '../components/Accordion';
-import Tab from '../components/Tab';
-import { showToast } from '../../redux/slice/toastSlice';
-import { showModal } from '../../redux/slice/modalSlice';
-import Form from './Form';
-import ReactHookForm from './ReactHookForm';
-// import TanstackForm from './TanstackForm';
+import DefaultImg from '@/views/components/DefaultImg';
+import Breadcrumb from '@/views/components/Breadcrumb';
+import Pagination from '@/views/components/Pagination';
+import Tag from '@/views/components/Tag';
+import Card from '@/views/components/Card';
+import Header from '@/views/components/Header';
+import Editor from '@/views/components/Editor';
+import NewEditor from '@/views/components/NewEditor';
+import Spinner from '@/views/components/Spinner';
+import Accordion from '@/views/components/Accordion';
+import Tab from '@/views/components/Tab';
+import { showToast } from '@/redux/slice/toastSlice';
+import { showModal } from '@/redux/slice/modalSlice';
+import Form from '@/views/pages/Form';
+import ReactHookForm from '@/views/pages/ReactHookForm';
+// import TanstackForm from '@/views/pages/TanstackForm';
 
 type H1Props = {
   text: string;
@@ -67,9 +68,12 @@ type UsageProps = {
   addFadeRefs: React.RefObject<HTMLDivElement>;
 };
 
-const Usage: React.FC<UsageProps> = ({ addFadeRefs }) => {
+const Usage: React.FC<UsageProps> = () => {
   const dispatch = useDispatch();
+  const scrollToTop = useScrollToTop();
   const copyUrl = useCopyUrl();
+  const shareSocial = useShareSocial();
+  useObserverFade('[data-fade]');
 
   useEffect(() => {
     dispatch(
@@ -151,12 +155,16 @@ const Usage: React.FC<UsageProps> = ({ addFadeRefs }) => {
 
         <br />
 
-        <div className="@hover-text-blue-300">只在非觸碰裝置上有效的 hover</div>
+        <div className="@hover:text-blue-300">只在非觸碰裝置上有效的 hover</div>
 
         <br />
 
         <div className="parent">parent 父層 hover 子層 (觸碰和非觸碰裝置皆有效)
           <div className="parent-hover:(text-blue-500)">子層</div>
+        </div>
+
+        <div className="parent">parent 父層 hover 子層 (只在非觸碰裝置上有效)
+          <div className="@parent-hover:(text-blue-500)">子層</div>
         </div>
 
         <br />
@@ -168,11 +176,23 @@ const Usage: React.FC<UsageProps> = ({ addFadeRefs }) => {
           </div>
         </div>
 
+        <div className="group">group 父層 hover 巢狀子層 (只在非觸碰裝置上有效)
+          <div>子層
+            <div className="@group-hover:(text-blue-500)">子層</div>
+            子層
+          </div>
+        </div>
+
         <br />
 
         <div>
           <button type="button" className="peer">peer hover 相鄰元素 (觸碰和非觸碰裝置皆有效)</button>
-          <div className="peer-hover:(text-blue)">相鄰元素</div>
+          <div className="peer-hover:(text-blue-500)">相鄰元素</div>
+        </div>
+
+        <div>
+          <button type="button" className="peer">peer hover 相鄰元素 (只在非觸碰裝置上有效)</button>
+          <div className="@peer-hover:(text-blue-500)">相鄰元素</div>
         </div>
 
         <H2 text={'Peer'} />
@@ -368,7 +388,7 @@ const Usage: React.FC<UsageProps> = ({ addFadeRefs }) => {
             url: './src/assets/images/test.jpg',
             defaultUrl: './src/assets/images/test-default.jpg',
             alt: '',
-            ratio: '1920x500',
+            ratio: 'u-ratio-[1920x300]',
           }}
           content={{
             title: '標題'
@@ -390,6 +410,8 @@ const Usage: React.FC<UsageProps> = ({ addFadeRefs }) => {
           { title: '標題1', text: '內容1' },
           { title: '標題2', text: '內容2' },
           { title: '標題3', text: '內容3' },
+          { title: '標題4', text: '內容4' },
+          { title: '標題55555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555', text: '內容5' },
         ]} />
 
         {/* TODO */}
@@ -413,7 +435,7 @@ const Usage: React.FC<UsageProps> = ({ addFadeRefs }) => {
             showModal({
               type: 'inner',
               title: '標題標題標題標題標題標題標題標題',
-              text: '文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字',
+              text: '文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字',
               btn: {
                 text: '確認',
               }
@@ -435,40 +457,27 @@ const Usage: React.FC<UsageProps> = ({ addFadeRefs }) => {
         <H1 text={'Methods'} />
 
         <H2 text={'ScrollToTop'} />
-        <button type="button" onClick={scrollToTop}>scrollToTop</button>
+        <button type="button" className="text-white bg-main rounded-4 p-4" onClick={scrollToTop}>scrollToTop</button>
 
-        <H2 text={'ScrollFadeIn'} />
-        <div className="bg-blue-50 rounded-8 px-16 py-12 mb-10">
-          方法在 scrollFadeIn.tsx
-        </div>
+        <H2 text={'ObserveFade'} />
         <div className="flex gap-10">
-          <div className="u-fade-in w-200 h-200 bg-blue-300" ref={addFadeRefs}></div>
-          <div className="u-fade-in w-200 h-200 bg-blue-300 transition-delay-300" ref={addFadeRefs}></div>
-          <div className="u-fade-in w-200 h-200 bg-blue-300 transition-delay-600" ref={addFadeRefs}></div>
-        </div>
-        <div className="flex gap-10">
-          <div className="u-fade-in w-200 h-200 bg-blue-300" 
-            // fade={{
-            //   type: 'up',
-            //   duration: 800,
-            //   delay: 100,
-            // }}
+          <div className="w-200 h-200 bg-blue-300" 
+            data-fade="in" 
+            data-fade-duration="800" 
+            data-fade-delay="100"
+            data-fade-once="false"
           >
           </div>
-          <div className="u-fade-in w-200 h-200 bg-blue-300"
-            // fade={{
-            //   type: 'up',
-            //   duration: 800,
-            //   delay: 200,
-            // }}
+          <div className="w-200 h-200 bg-blue-300"
+            odata-fade="up" 
+            data-fade-duration="800" 
+            data-fade-delay="200"
             >
           </div>
-          <div className="u-fade-in w-200 h-200 bg-blue-300"
-            // fade={{
-            //   type: 'up',
-            //   duration: 800,
-            //   delay: 300,
-            // }}
+          <div className="w-200 h-200 bg-blue-300"
+            odata-fade="up" 
+            data-fade-duration="800" 
+            data-fade-delay="300"
             >
           </div>
         </div>
