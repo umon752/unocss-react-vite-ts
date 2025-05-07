@@ -6,6 +6,7 @@ import { useShareSocial } from '@/hooks/useShareSocial';
 import { useCopyUrl } from '@/hooks/useCopyUrl';
 import { useObserverFade } from '@/hooks/useObserverFade';
 import { useCounter } from '@/hooks/useCounter';
+import { useCursor } from '@/hooks/useCursor';
 // components
 import DefaultImg from '@/views/components/DefaultImg';
 import Breadcrumb from '@/views/components/Breadcrumb';
@@ -103,7 +104,26 @@ const Usage: React.FC<UsageProps> = () => {
       console.log('org counter done');
     }
   });
-  
+
+  useCursor({
+    linkHover: true,
+    enter(e) {
+      // console.log('enter', e);
+    },
+    move(e) {
+      // if(e.target.className == 'area__box') {
+      //   const box = e.target;
+      //   cursor.cursor.textContent = 'box';
+      //   box.addEventListener('mouseleave', (e) => {
+      //     cursor.cursor.textContent = '';
+      //   });
+      // }
+      // console.log('move', e);
+    },
+    leave(e) {
+      // console.log('leave', e);
+    },
+  });
 
   useEffect(() => {
     dispatch(
@@ -118,6 +138,22 @@ const Usage: React.FC<UsageProps> = () => {
     <>
       <div className="g-container pt-15 pb-50">
         <H1 text={'Usage'} />
+
+        <H2 text={'Cursor'} />
+        <div className="w-500 h-500 bg-blue-300 u-flex-center flex-col gap-10" data-cursor-area="0">
+          <a href="#!" className="rounded-4 bg-blue-800 text-white p-8">連結</a>
+          <button type="button" className="rounded-4 bg-blue-800 text-white p-8">按鈕</button>
+          <div className="w-200 h-200 bg-blue-500 u-flex-center text-white" data-cursor-box>區域</div>
+        </div>
+        <div className="w-30 h-30 rounded-full bg-white fixed top-0 left-0 pointer-events-none mix-blend-difference" data-cursor="0"></div>
+
+        <div className="w-500 h-500 bg-blue-300 u-flex-center flex-col gap-10" data-cursor-area="1">
+          <a href="#!" className="rounded-4 bg-blue-800 text-white p-8">連結</a>
+          <button type="button" className="rounded-4 bg-blue-800 text-white p-8">按鈕</button>
+          <div className="w-200 u-img-contain" data-cursor-img="./src/assets/images/test.jpg"></div>
+        </div>
+        <div className="pointer-events-none" data-cursor="1"></div>
+
 
         <H2 text={'Counter'} />
         {/* 123,567.98 */}
