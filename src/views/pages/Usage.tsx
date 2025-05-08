@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 // hooks
 import { useScrollToTop } from '@/hooks/useScrollToTop';
@@ -76,34 +76,8 @@ const Usage: React.FC<UsageProps> = () => {
   const copyUrl = useCopyUrl();
   const shareSocial = useShareSocial();
   useObserverFade('[data-fade]');
-
-  // counter 可包含非純數字
-  const counterInstance = useCounter({
-    counter: '.js-counter',
-    duration: 2000,
-    startTime: 500,
-    delay: 100,
-    startNum: 50,
-    done() {
-      console.log('counter done');
-    }
-  });
-
-  // counter 只可設定純數字
-  const orgCounterInstance = useCounter({
-    counter: '.js-org-counter',
-    duration: 2000,
-    startTime: 500,
-    delay: 100,
-    startNum: 10,
-    randomMode: {
-      enable: false,
-      thousandComma: true,
-    },
-    done() {
-      console.log('org counter done');
-    }
-  });
+  const countersRef = useRef<HTMLDivElement | null>(null);
+  let counterInstance = null;
 
   useCursor({
     enableLinkHover: true,
@@ -129,6 +103,45 @@ const Usage: React.FC<UsageProps> = () => {
     // },
   });
 
+  console.log('countersRef 1', countersRef);
+  useEffect(() => {
+    console.log('countersRef 2', countersRef);
+    
+    // countersRef.current.forEach((el) => {
+      // counter 可包含非純數字
+      counterInstance = useCounter({
+        selector: countersRef.current,
+        duration: 2000,
+        startTime: 500,
+        delay: 100,
+        startNum: 50,
+        done() {
+          console.log('counter done');
+        }
+      });
+    // })
+    
+    // const run = () => {
+      counterInstance.run();
+    // }
+
+    // counter 只可設定純數字
+    // const orgCounterInstance = useCounter({
+    //   selector: '.js-org-counter',
+    //   duration: 2000,
+    //   startTime: 500,
+    //   delay: 100,
+    //   startNum: 10,
+    //   randomMode: {
+    //     enable: false,
+    //     thousandComma: true,
+    //   },
+    //   done() {
+    //     console.log('org counter done');
+    //   }
+    // });
+  }, [countersRef])
+
   useEffect(() => {
     dispatch(
       showToast({
@@ -136,7 +149,6 @@ const Usage: React.FC<UsageProps> = () => {
         icon: 'i-material-symbols:language',
       })
     )
-    
   }, [])
   return (
     <>
@@ -161,17 +173,18 @@ const Usage: React.FC<UsageProps> = () => {
 
         <H2 text={'Counter'} />
         {/* 123,567.98 */}
-        <div className="u-h2 text-blue fw-bold mb-10 js-counter" data-counter="123,567.98"></div>
+        <div className="u-h2 text-blue fw-bold mb-10" ref={countersRef} data-counter="123,567.98"></div>
+        {/* <div className="u-h2 text-blue fw-bold mb-10" ref={countersRef} data-counter="123"></div> */}
         <h3 className="inline-block bg-blue-50 rounded-8 px-16 py-12 mb-10">可包含非純數字</h3>
         <div className="flex gap-10">
-          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={counterInstance.run}>可包含非純數字 run</button>
-          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={counterInstance.stop}>可包含非純數字 stop</button>
+          {/* <button type="button" className="rounded-4 bg-main text-white p-8" onClick={run}>可包含非純數字 run</button> */}
+          {/* <button type="button" className="rounded-4 bg-main text-white p-8" onClick={counterInstance.stop}>可包含非純數字 stop</button>
           <button type="button" className="rounded-4 bg-main text-white p-8" onClick={counterInstance.start}>可包含非純數字 start</button>
           <button type="button" className="rounded-4 bg-main text-white p-8" onClick={counterInstance.reset}>可包含非純數字 reset</button>
-          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={counterInstance.restart}>可包含非純數字 restart</button>
+          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={counterInstance.restart}>可包含非純數字 restart</button> */}
         </div>
         <br/>
-        <div className="u-h2 text-blue fw-bold mb-10 js-org-counter" data-counter="1000"></div>
+        {/* <div className="u-h2 text-blue fw-bold mb-10 js-org-counter" data-counter="1000"></div>
         <h3 className="inline-block bg-blue-50 rounded-8 px-16 py-12 mb-10">只可設定純數字</h3>
         <div className="flex gap-10">
           <button type="button" className="rounded-4 bg-main text-white p-8" onClick={orgCounterInstance.run}>只可設定純數字 run</button>
@@ -179,7 +192,7 @@ const Usage: React.FC<UsageProps> = () => {
           <button type="button" className="rounded-4 bg-main text-white p-8" onClick={orgCounterInstance.start}>只可設定純數字 start</button>
           <button type="button" className="rounded-4 bg-main text-white p-8" onClick={orgCounterInstance.reset}>只可設定純數字 reset</button>
           <button type="button" className="rounded-4 bg-main text-white p-8" onClick={orgCounterInstance.restart}>只可設定純數字 restart</button>
-        </div>
+        </div> */}
 
 
         {/* TODO */}
