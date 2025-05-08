@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 // hooks
 import { useScrollToTop } from '@/hooks/useScrollToTop';
@@ -106,23 +106,27 @@ const Usage: React.FC<UsageProps> = () => {
   });
 
   useCursor({
-    linkHover: true,
-    enter(e) {
+    enableLinkHover: true,
+    linkClass: ['w-50', 'h-50'],
+    activeClass: ['opacity-100'],
+    // enableHideCursor: true,
+    // enableTouch: true,
+    // enter(e) {
       // console.log('enter', e);
+    // },
+    move(e, cursor) {
+      if(e.target.dataset.cursorBox) {
+        const box = e.target;
+        cursor.textContent = 'box';
+        box.addEventListener('mouseleave', () => {
+          cursor.textContent = '';
+        });
+      }
+      // console.log('move', e, cursor);
     },
-    move(e) {
-      // if(e.target.className == 'area__box') {
-      //   const box = e.target;
-      //   cursor.cursor.textContent = 'box';
-      //   box.addEventListener('mouseleave', (e) => {
-      //     cursor.cursor.textContent = '';
-      //   });
-      // }
-      // console.log('move', e);
-    },
-    leave(e) {
-      // console.log('leave', e);
-    },
+    // leave(e, cursor) {
+      // console.log('leave', e), cursor;
+    // },
   });
 
   useEffect(() => {
@@ -140,19 +144,19 @@ const Usage: React.FC<UsageProps> = () => {
         <H1 text={'Usage'} />
 
         <H2 text={'Cursor'} />
-        <div className="w-500 h-500 bg-blue-300 u-flex-center flex-col gap-10" data-cursor-area="0">
+        <div className="w-300 h-300 bg-blue-300 u-flex-center flex-col gap-10" data-cursor-area="0">
           <a href="#!" className="rounded-4 bg-blue-800 text-white p-8">連結</a>
           <button type="button" className="rounded-4 bg-blue-800 text-white p-8">按鈕</button>
-          <div className="w-200 h-200 bg-blue-500 u-flex-center text-white" data-cursor-box>區域</div>
+          <div className="w-100 h-100 bg-blue-500 u-flex-center text-white" data-cursor-box>區域</div>
         </div>
-        <div className="w-30 h-30 rounded-full bg-white fixed top-0 left-0 pointer-events-none mix-blend-difference" data-cursor="0"></div>
+        <div className="w-30 h-30 rounded-full bg-white fixed top-0 left-0 pointer-events-none mix-blend-difference opacity-0 transition-[opacity,width,height] duration-200 ease-linear" data-cursor="0"></div>
 
-        <div className="w-500 h-500 bg-blue-300 u-flex-center flex-col gap-10" data-cursor-area="1">
+        <div className="w-300 h-300 bg-blue-300 u-flex-center flex-col gap-10" data-cursor-area="1">
           <a href="#!" className="rounded-4 bg-blue-800 text-white p-8">連結</a>
           <button type="button" className="rounded-4 bg-blue-800 text-white p-8">按鈕</button>
           <div className="w-200 u-img-contain" data-cursor-img="./src/assets/images/test.jpg"></div>
         </div>
-        <div className="pointer-events-none" data-cursor="1"></div>
+        <div className="pointer-events-none fixed top-0 left-0 opacity-0 transition-[opacity,width,height] duration-200 ease-linear" data-cursor="1"></div>
 
 
         <H2 text={'Counter'} />
