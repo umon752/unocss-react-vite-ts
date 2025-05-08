@@ -1,6 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-type ModalProps = {
+export type ModalProps = {
   type: string;
   title: string;
   text: string;
@@ -26,18 +26,14 @@ export const modalSlice = createSlice({
   name: 'modal', 
   initialState, 
   reducers: { 
-    showModal(_: ModalProps, action: { payload: Omit<ModalProps, 'active'> }) {
-      return {
-        ...action.payload,
-        active: true,
-      }
-    },
-    hideModal(state: ModalProps) {
-      return {
-        ...state,
-        active: false,
-      }
-    },
+    showModal: (_, action: PayloadAction<Omit<ModalProps, 'active'>>) => ({
+      ...action.payload,
+      active: true,
+    }),
+    hideModal: (state) => ({
+      ...state,
+      active: false,
+    }),
   } 
 })
 

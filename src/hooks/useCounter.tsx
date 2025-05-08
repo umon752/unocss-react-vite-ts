@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef } from 'react';
 
 type CounterOptions = {
   counter?: string;
@@ -51,19 +51,19 @@ export const useCounter = (options: CounterOptions = {}): CounterMethods => {
     counter: '',
   }
 
-  const countersRef = useRef<NodeListOf<Element> | null>(null);
-  const counterStatesRef = useRef<Map<Element, CounterState>>(new Map());
+  const countersRef = useRef<NodeListOf<HTMLElement> | null>(null);
+  const counterStatesRef = useRef<Map<HTMLElement, CounterState>>(new Map());
 
-  const getRandomNum = useCallback((maxNum: number): number => {
+  const getRandomNum = (maxNum: number): number => {
     return Math.floor(Math.random() * maxNum);
-  }, []);
+  };
 
-  const setThousandComma = useCallback((num: number): string => {
+  const setThousandComma = (num: number): string => {
     const comma = /(\d)(?=(\d{3})+(?!\d))/g;
     return num.toString().replace(comma, '$1,');
-  }, []);
+  };
 
-  const getCounterState = useCallback((el: Element): CounterState => {
+  const getCounterState = (el: HTMLElement): CounterState => {
     if (!counterStatesRef.current.has(el)) {
       counterStatesRef.current.set(el, {
         currentNum: 0,
@@ -74,9 +74,9 @@ export const useCounter = (options: CounterOptions = {}): CounterMethods => {
       });
     }
     return counterStatesRef.current.get(el)!;
-  }, [options.startNum]);
+  };
 
-  const render = useCallback((el: Element, isDone = false): void => {
+  const render = (el: HTMLElement, isDone = false): void => {
     const counterText = el.dataset.counter || '';
     const isPureNum = !isNaN(Number(counterText));
     const randomMode = {
@@ -97,9 +97,9 @@ export const useCounter = (options: CounterOptions = {}): CounterMethods => {
       }).join('');
       el.textContent = str;
     }
-  }, [options.randomMode?.enable, options.randomMode?.thousandComma, setThousandComma, getCounterState]);
+  };
 
-  const runSequential = useCallback((el: Element): void => {
+  const runSequential = (el: HTMLElement): void => {
     const counterText = el.dataset.counter || '';
     const domNum = parseInt(counterText);
     const duration = options.duration ?? defaultOptions.duration;
@@ -124,16 +124,16 @@ export const useCounter = (options: CounterOptions = {}): CounterMethods => {
         const done = options.done ?? defaultOptions.done;
         done();
       }
-    }
+    };
 
     if (!state.timerId) {
       state.timerId = requestAnimationFrame(runCount);
     } else {
       requestAnimationFrame(runCount);
     }
-  }, [options.duration, options.delay, options.done, render, getCounterState]);
+  };
 
-  const runRandom = useCallback((el: Element): void => {
+  const runRandom = (el: HTMLElement): void => {
     const counterText = el.dataset.counter || '';
     const domTextArray = counterText.split('');
     const duration = options.duration ?? defaultOptions.duration;
@@ -143,7 +143,7 @@ export const useCounter = (options: CounterOptions = {}): CounterMethods => {
     let isDone = false;
     let delayTimestamp = 0;
 
-    domTextArray.forEach((text, i) => {
+    domTextArray.forEach((text: string, i: number) => {
       state.singleTextArray[i] = {
         timerId: null,
         durationTimestamp: null,
@@ -179,15 +179,15 @@ export const useCounter = (options: CounterOptions = {}): CounterMethods => {
               isDone = true;
             }
           }
-        }
+        };
         state.singleTextArray[i].timerId = requestAnimationFrame(runCount);
       } else {
         state.singleTextArray[i].randomText = text;
       }
     });
-  }, [options.duration, options.delay, options.done, getRandomNum, render, getCounterState]);
+  };
 
-  const runStart = useCallback((el: Element): void => {
+  const runStart = (el: HTMLElement): void => {
     const counterText = el.dataset.counter || '';
     const isPureNum = !isNaN(Number(counterText));
     const randomMode = {
@@ -204,9 +204,9 @@ export const useCounter = (options: CounterOptions = {}): CounterMethods => {
     } else {
       runRandom(el);
     }
-  }, [options.randomMode?.enable, runSequential, runRandom, getCounterState]);
+  };
 
-  const cancelAnimation = useCallback((el: Element, stopMethod = false): void => {
+  const cancelAnimation = (el: HTMLElement, stopMethod = false): void => {
     const counterText = el.dataset.counter || '';
     const isPureNum = !isNaN(Number(counterText));
     const randomMode = {
@@ -225,9 +225,9 @@ export const useCounter = (options: CounterOptions = {}): CounterMethods => {
         }
       });
     }
-  }, [options.randomMode?.enable, getCounterState]);
+  };
 
-  const run = useCallback((): (() => void) => {
+  const run = (): (() => void) => {
     const startTime = options.startTime ?? defaultOptions.startTime;
     let timerId: number | null = null;
 
@@ -251,9 +251,9 @@ export const useCounter = (options: CounterOptions = {}): CounterMethods => {
         clearTimeout(timerId);
       }
     };
-  }, [options.startTime, runStart, getCounterState]);
+  };
 
-  const stop = useCallback((): void => {
+  const stop = (): void => {
     if (countersRef.current) {
       countersRef.current.forEach((el) => {
         const state = getCounterState(el);
@@ -261,9 +261,9 @@ export const useCounter = (options: CounterOptions = {}): CounterMethods => {
         state.isStop = true;
       });
     }
-  }, [cancelAnimation, getCounterState]);
+  };
 
-  const start = useCallback((): void => {
+  const start = (): void => {
     if (countersRef.current) {
       countersRef.current.forEach((el) => {
         const state = getCounterState(el);
@@ -271,9 +271,9 @@ export const useCounter = (options: CounterOptions = {}): CounterMethods => {
         state.isStop = false;
       });
     }
-  }, [runStart, getCounterState]);
+  };
 
-  const reset = useCallback((): void => {
+  const reset = (): void => {
     if (countersRef.current) {
       countersRef.current.forEach((el) => {
         const state = getCounterState(el);
@@ -284,9 +284,9 @@ export const useCounter = (options: CounterOptions = {}): CounterMethods => {
         el.textContent = state.startNum.toString();
       });
     }
-  }, [cancelAnimation, getCounterState]);
+  };
 
-  const restart = useCallback((): (() => void) => {
+  const restart = (): (() => void) => {
     const fps = 60;
     let timerId: number | null = null;
     reset();
@@ -299,11 +299,11 @@ export const useCounter = (options: CounterOptions = {}): CounterMethods => {
         clearTimeout(timerId);
       }
     };
-  }, [reset, run]);
+  };
 
   useEffect(() => {
     if (options.counter) {
-      countersRef.current = document.querySelectorAll(options.counter);
+      countersRef.current = document.querySelectorAll<HTMLElement>(options.counter);
       if (countersRef.current) {
         countersRef.current.forEach((el) => {
           const state = getCounterState(el);
@@ -311,7 +311,7 @@ export const useCounter = (options: CounterOptions = {}): CounterMethods => {
         });
       }
     }
-  }, [options.counter, getCounterState]);
+  }, [options.counter]);
 
   return {
     run,
@@ -320,4 +320,4 @@ export const useCounter = (options: CounterOptions = {}): CounterMethods => {
     reset,
     restart,
   };
-}
+};

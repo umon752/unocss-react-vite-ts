@@ -1,54 +1,77 @@
-export const useDrag = (target: React.RefObject<HTMLDivElement> | null, btns: React.RefObject<HTMLButtonElement[]> | null) => {
-    let isMouseDown = false;
-    let startPosX = 0;
-    let targetScrollLeft = 0;
-  
-    const startDrag = (e: MouseEvent) => {
-      isMouseDown = true;
-      if (target?.current) {
-        startPosX = e.pageX - target.current.offsetLeft;
-        targetScrollLeft = target.current.scrollLeft;
+import { useEffect, useRef } from 'react';
+
+type DragState = {
+  isMouseDown: boolean;
+  startPosX: number;
+  targetScrollLeft: number;
+};
+
+export const useDrag = (
+  target: React.RefObject<HTMLDivElement> | null,
+  btns: React.RefObject<HTMLButtonElement[]> | null
+) => {
+  const dragState = useRef<DragState>({
+    isMouseDown: false,
+    startPosX: 0,
+    targetScrollLeft: 0,
+  });
+
+  const updateBtnPointerEvents = (value: 'auto' | 'none'): void => {
+    if (!btns?.current) return;
+    
+    btns.current.forEach((btn) => {
+      if (btn) {
+        btn.style.pointerEvents = value;
       }
-    }
-  
-    const stopDrag = () => {
-      isMouseDown = false;
-    }
-  
-    const updateBtnPointerEvents = (value: string) => {
-      if (btns?.current) {
-        btns.current.forEach((btn) => {
-          btn.style.pointerEvents = value;
-        });
-      }
-    }
-    const move = (e: MouseEvent) => {
-      e.preventDefault();
-      if (!isMouseDown) {
-        updateBtnPointerEvents('auto');
-        return;
-      }
-      if (target?.current) {
-        const x = e.pageX - target.current.offsetLeft;
-        const scroll = x - startPosX;
-        target.current.scrollLeft = targetScrollLeft - scroll;
-      }
-      updateBtnPointerEvents('none');
+    });
+  };
+
+  const startDrag = (e: MouseEvent): void => {
+    if (!target?.current) return;
+
+    dragState.current = {
+      isMouseDown: true,
+      startPosX: e.pageX - target.current.offsetLeft,
+      targetScrollLeft: target.current.scrollLeft,
+    };
+  };
+
+  const stopDrag = (): void => {
+    dragState.current.isMouseDown = false;
+  };
+
+  const move = (e: MouseEvent): void => {
+    e.preventDefault();
+
+    if (!dragState.current.isMouseDown) {
+      updateBtnPointerEvents('auto');
+      return;
     }
 
-    if (target?.current) {
-      target.current.addEventListener('mousemove', move);
-      target.current.addEventListener('mousedown', startDrag);
-      target.current.addEventListener('mouseup', stopDrag);
-      target.current.addEventListener('mouseleave', stopDrag);
-    }
+    if (!target?.current) return;
 
+    const x = e.pageX - target.current.offsetLeft;
+    const scroll = x - dragState.current.startPosX;
+    target.current.scrollLeft = dragState.current.targetScrollLeft - scroll;
+    updateBtnPointerEvents('none');
+  };
+
+  useEffect(() => {
+    const currentTarget = target?.current;
+    if (!currentTarget) return;
+
+    // 添加事件監聽器
+    currentTarget.addEventListener('mousemove', move);
+    currentTarget.addEventListener('mousedown', startDrag);
+    currentTarget.addEventListener('mouseup', stopDrag);
+    currentTarget.addEventListener('mouseleave', stopDrag);
+
+    // 清理函數
     return () => {
-      if (target?.current) {
-        target.current.removeEventListener('mousemove', move);
-        target.current.removeEventListener('mousedown', startDrag);
-        target.current.removeEventListener('mouseup', stopDrag);
-        target.current.removeEventListener('mouseleave', stopDrag);
-      }
-    }
-}
+      currentTarget.removeEventListener('mousemove', move);
+      currentTarget.removeEventListener('mousedown', startDrag);
+      currentTarget.removeEventListener('mouseup', stopDrag);
+      currentTarget.removeEventListener('mouseleave', stopDrag);
+    };
+  }, [target]);
+};

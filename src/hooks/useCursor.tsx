@@ -1,4 +1,3 @@
-import { QueryStatus } from '@reduxjs/toolkit/query';
 import { useEffect, useRef } from 'react';
 
 type CursorOptions = {
@@ -25,10 +24,10 @@ export const useCursor = (options: CursorOptions = {}) => {
     leave: () => {},
   }
 
-  const cursorsRef = useRef<NodeListOf<Element> | null>(null);
-  const cursorAreasRef = useRef<NodeListOf<Element> | null>(null);
-  const currentCursor = useRef<Element | null>(null);
-  const isTouchDevice = 'ontouchstart' in document.documentElement;
+  const cursorsRef = useRef<NodeListOf<HTMLElement> | null>(null);
+  const cursorAreasRef = useRef<NodeListOf<HTMLElement> | null>(null);
+  const currentCursor = useRef<HTMLElement | null>(null);
+  const isTouchDevice = useRef('ontouchstart' in document.documentElement);
   const linkTags = 'a, button';
 
   const enableLinkHover = options.enableLinkHover ?? defaultOptions.enableLinkHover;
@@ -41,63 +40,74 @@ export const useCursor = (options: CursorOptions = {}) => {
   const leave = options.leave ?? defaultOptions.leave;
 
   useEffect(() => {
-    cursorsRef.current = document.querySelectorAll('[data-cursor]');
+    cursorsRef.current = document.querySelectorAll<HTMLElement>('[data-cursor]');
 
     const addEffect = (e: Event) => {
-      const key = (e.currentTarget as HTMLElement).closest('[data-cursor-area]')?.dataset.cursorArea;
+      const target = e.currentTarget as HTMLElement;
+      const area = target.closest<HTMLElement>('[data-cursor-area]');
+      const key = area?.dataset.cursorArea;
+      
+      if (!cursorsRef.current || !key) return;
+      
       cursorsRef.current.forEach((el) => {
         if(el.dataset.cursor === key) {
           el.classList.add(...linkClass);
         }
-      })
-    }
+      });
+    };
 
     const removeEffect = (e: Event) => {
-      const key = (e.currentTarget as HTMLElement).closest('[data-cursor-area]')?.dataset.cursorArea;
+      const target = e.currentTarget as HTMLElement;
+      const area = target.closest<HTMLElement>('[data-cursor-area]');
+      const key = area?.dataset.cursorArea;
+      
+      if (!cursorsRef.current || !key) return;
+      
       cursorsRef.current.forEach((el) => {
         if(el.dataset.cursor === key) {
           el.classList.remove(...linkClass);
         }
-      })
-    }
+      });
+    };
 
-    const addenableLinkHoverEvent = (area: Element) => {
-      const links = area.querySelectorAll(linkTags);
-
+    const addenableLinkHoverEvent = (area: HTMLElement) => {
+      const links = area.querySelectorAll<HTMLElement>(linkTags);
       links.forEach((link) => {
         link.addEventListener('mouseenter', addEffect);
         link.addEventListener('mouseleave', removeEffect);
-      })
-    }
+      });
+    };
 
-    const removeenableLinkHoverEvent = (area: Element) => {
-      const links = area.querySelectorAll(linkTags);
-
+    const removeenableLinkHoverEvent = (area: HTMLElement) => {
+      const links = area.querySelectorAll<HTMLElement>(linkTags);
       links.forEach((link) => {
         link.removeEventListener('mouseenter', addEffect);
         link.removeEventListener('mouseleave', removeEffect);
-      })
-    }
+      });
+    };
 
     const enterArea = (e: Event) => {
       enter(e as MouseEvent);
-    }
+    };
 
     const moveArea = (e: Event) => {
       e.stopPropagation();
-      const key = (e.currentTarget as HTMLElement).dataset.cursorArea;
+      const target = e.currentTarget as HTMLElement;
+      const key = target.dataset.cursorArea;
       
-      cursorsRef.current?.forEach((el) => {
-        if((el as HTMLElement).dataset.cursor === key) {
+      if (!cursorsRef.current || !key) return;
+      
+      cursorsRef.current.forEach((el) => {
+        if(el.dataset.cursor === key) {
           let cursorW = 0;
           let cursorH = 0;
 
           // 如果有設定 data-cursor-img
-          const img = (e.currentTarget as HTMLElement).querySelector('[data-cursor-img]');
+          const img = target.querySelector<HTMLElement>('[data-cursor-img]');
           if(img) {
             const cursorImg = el.querySelector('img');
             if(!cursorImg) {
-              const src = (img as HTMLElement).dataset.cursorImg;
+              const src = img.dataset.cursorImg;
               const className = img.classList;
               el.innerHTML = `<img class="${className}" src="${src}" />`;
             } else {
@@ -105,8 +115,8 @@ export const useCursor = (options: CursorOptions = {}) => {
               cursorH = cursorImg.offsetHeight;
             }
           } else {
-            cursorW = (el as HTMLElement).offsetWidth;
-            cursorH = (el as HTMLElement).offsetHeight;
+            cursorW = el.offsetWidth;
+            cursorH = el.offsetHeight;
           }
           Object.assign(el.style, {
             transform: `translate3d(${(e as MouseEvent).x - (cursorW / 2)}px, ${(e as MouseEvent).y - (cursorH / 2)}px, 0)`
@@ -114,59 +124,79 @@ export const useCursor = (options: CursorOptions = {}) => {
           el.classList.add(...activeClass);
           currentCursor.current = el;
         }
-      })
+      });
 
       if(enableHideCursor) {
-        (e.currentTarget as HTMLElement).style.cursor = "none";
+        target.style.cursor = "none";
       }
       
       move(e as MouseEvent, currentCursor.current as Element);
-    }
+    };
 
     const leaveArea = (e: Event) => {
-      const key = (e.currentTarget as HTMLElement).dataset.cursorArea;
-      cursorsRef.current?.forEach((el) => {
-        if((el as HTMLElement).dataset.cursor === key) {
+      const target = e.currentTarget as HTMLElement;
+      const key = target.dataset.cursorArea;
+      
+      if (!cursorsRef.current || !key) return;
+      
+      cursorsRef.current.forEach((el) => {
+        if(el.dataset.cursor === key) {
           el.classList.remove(...activeClass);
           currentCursor.current = el;
         }
-      })
+      });
+      
       leave(e as MouseEvent, currentCursor.current as Element);
-    }
+    };
 
-    cursorsRef.current?.forEach((el) => {
-      // 在觸碰裝置不啟用效果
-      if(isTouchDevice && !enableTouch) return;
-      const key = (el as HTMLElement).dataset.cursor;
-      cursorAreasRef.current = document.querySelectorAll(`[data-cursor-area="${key}"]`);
+    const setupEventListeners = () => {
+      if (!cursorsRef.current) return;
+      
+      cursorsRef.current.forEach((el) => {
+        // 在觸碰裝置不啟用效果
+        if(isTouchDevice.current && !enableTouch) return;
+        
+        const key = el.dataset.cursor;
+        if (!key) return;
+        
+        cursorAreasRef.current = document.querySelectorAll<HTMLElement>(`[data-cursor-area="${key}"]`);
 
-      cursorAreasRef.current?.forEach((area) => {
-        area.addEventListener('mouseenter', enterArea as EventListener);
-        area.addEventListener('mousemove', moveArea as EventListener);
-        area.addEventListener('mouseleave', leaveArea as EventListener);
-
-        // 如果有啟用 enableLinkHover
-        if(enableLinkHover) {
-          addenableLinkHoverEvent(area);
-        }
-      })
-    })
-
-    return () => {
-      cursorsRef.current?.forEach((el) => {
-        const key = (el as HTMLElement).dataset.cursor;
-        cursorAreasRef.current = document.querySelectorAll(`[data-cursor-area="${key}"]`);
-  
         cursorAreasRef.current?.forEach((area) => {
-          area.removeEventListener('mouseenter', enterArea as EventListener);
-          area.removeEventListener('mousemove', moveArea as EventListener);
-          area.removeEventListener('mouseleave', leaveArea as EventListener);
+          area.addEventListener('mouseenter', enterArea);
+          area.addEventListener('mousemove', moveArea);
+          area.addEventListener('mouseleave', leaveArea);
+
+          // 如果有啟用 enableLinkHover
+          if(enableLinkHover) {
+            addenableLinkHoverEvent(area);
+          }
+        });
+      });
+    };
+
+    const cleanupEventListeners = () => {
+      if (!cursorsRef.current) return;
+      
+      cursorsRef.current.forEach((el) => {
+        const key = el.dataset.cursor;
+        if (!key) return;
+        
+        cursorAreasRef.current = document.querySelectorAll<HTMLElement>(`[data-cursor-area="${key}"]`);
+
+        cursorAreasRef.current?.forEach((area) => {
+          area.removeEventListener('mouseenter', enterArea);
+          area.removeEventListener('mousemove', moveArea);
+          area.removeEventListener('mouseleave', leaveArea);
+          
           // 如果有啟用 enableLinkHover
           if(enableLinkHover) {
             removeenableLinkHoverEvent(area);
           }
-        })
-      })
-    }
+        });
+      });
+    };
+
+    setupEventListeners();
+    return cleanupEventListeners;
   }, [enter, move, leave, enableLinkHover, activeClass, linkClass, enableHideCursor]);
-}
+};

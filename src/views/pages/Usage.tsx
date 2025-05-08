@@ -550,7 +550,7 @@ const Usage: React.FC<UsageProps> = () => {
         <H1 text={'Methods'} />
 
         <H2 text={'ScrollToTop'} />
-        <button type="button" className="text-white bg-main rounded-4 p-4" onClick={scrollToTop}>scrollToTop</button>
+        <button type="button" className="text-white bg-main rounded-4 p-4" onClick={() => scrollToTop({ top: 500 })}>scrollToTop</button>
 
         <H2 text={'ObserveFade'} />
         <div className="flex gap-10">

@@ -17,18 +17,14 @@ const Tab: React.FC<TabListProps> = ({ array = [] }) => {
   const targetRef = useRef<HTMLDivElement | null>(null);
   const btnsRef = useRef<HTMLButtonElement[]>([]);
 
+  useDrag(targetRef, btnsRef);
+
   const toggleTab = (index: number) => {
     setActiveIndex(activeIndex === index ? null : index);
     setTimeout(() => {
       setShowIndex(showIndex === index ? null : index);
     }, 10);
   };
-
-  useEffect(() => {
-    // console.log('btnsRef', btnsRef.current);
-    // console.log('targetRef', targetRef.current);
-    useDrag(targetRef, btnsRef)
-  }, [])
 
   return (
     <div className="flex flex-(col) gap-10">

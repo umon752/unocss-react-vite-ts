@@ -1,6 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-type ToastProps = {
+export type ToastProps = {
   text: string;
   active: boolean;
   icon: string;
@@ -16,18 +16,14 @@ export const toastSlice = createSlice({
   name: 'toast', 
   initialState, 
   reducers: { 
-    showToast(_: ToastProps, action: { payload: Omit<ToastProps, 'active'> }) {
-      return {
-        ...action.payload,
-        active: true,
-      }
-    },
-    hideToast(state: ToastProps) {
-      return {
-        ...state,
-        active: false,
-      }
-    },
+    showToast: (_, action: PayloadAction<Omit<ToastProps, 'active'>>) => ({
+      ...action.payload,
+      active: true,
+    }),
+    hideToast: (state) => ({
+      ...state,
+      active: false,
+    }),
   } 
 })
 
