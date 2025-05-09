@@ -1,5 +1,5 @@
 type CounterOptions = {
-  selector?: string;
+  selector?: HTMLElement | null;
   duration?: number;
   startTime?: number;
   delay?: number;
@@ -9,6 +9,21 @@ type CounterOptions = {
     thousandComma?: boolean;
   };
   done?: () => void;
+};
+
+type CounterTextItem = {
+  timerId: number | null;
+  durationTimestamp: number | null;
+  orgText: string;
+  randomText: string | null;
+};
+
+type CounterState = {
+  currentNum: number;
+  startNum: number;
+  timerId: number | null;
+  singleTextArray: CounterTextItem[];
+  isStop: boolean;
 };
 
 type CounterMethods = {
@@ -22,7 +37,7 @@ type CounterMethods = {
 export const useCounter = (options: CounterOptions = {}): CounterMethods => {
   // 預設值
   const defaultOptions: Required<CounterOptions> = {
-    selector: '',
+    selector: null,
     duration: 1000,
     startTime: 0,
     delay: 0,
@@ -35,7 +50,7 @@ export const useCounter = (options: CounterOptions = {}): CounterMethods => {
   }
 
   const counter = options.selector ?? defaultOptions.selector;
-  const counterStates = {
+  const counterStates : CounterState = {
     currentNum: 0,
     startNum: options.startNum ?? defaultOptions.startNum,
     timerId: null,
@@ -43,7 +58,9 @@ export const useCounter = (options: CounterOptions = {}): CounterMethods => {
     isStop: false,
   }
 
-  counter.textContent = counterStates.startNum.toString();
+  if(counter) {
+    counter.textContent = counterStates.startNum.toString();
+  }
 
   const getRandomNum = (maxNum: number): number => {
     return Math.floor(Math.random() * maxNum);
@@ -55,7 +72,7 @@ export const useCounter = (options: CounterOptions = {}): CounterMethods => {
   };
 
   const render = (isDone = false): void => {
-    const counterText = counter.dataset.counter || '';
+    const counterText = counter?.dataset.counter || '';
     const isPureNum = !isNaN(Number(counterText));
     const randomMode = {
       enable: options.randomMode?.enable ?? defaultOptions.randomMode.enable,
@@ -63,20 +80,26 @@ export const useCounter = (options: CounterOptions = {}): CounterMethods => {
     };
     if (!randomMode.enable && isPureNum) {
       if(isDone) {
-        counter.textContent = randomMode.thousandComma ? setThousandComma(parseInt(counterText)) : parseInt(counterText).toString();
+        if(counter) {
+          counter.textContent = randomMode.thousandComma ? setThousandComma(parseInt(counterText)) : parseInt(counterText).toString();
+        }
       } else {
-        counter.textContent = randomMode.thousandComma ? setThousandComma(Math.floor(counterStates.currentNum)) : Math.floor(counterStates.currentNum).toString();
+        if(counter) {
+          counter.textContent = randomMode.thousandComma ? setThousandComma(Math.floor(counterStates.currentNum)) : Math.floor(counterStates.currentNum).toString();
+        }
       }
     } else {
       const str = counterStates.singleTextArray.map((item) => {
         return isDone ? item.orgText : (item.randomText || '');
       }).join('');
-      counter.textContent = str;
+      if(counter) {
+        counter.textContent = str;
+      }
     }
   };
 
   const runSequential = (): void => {
-    const counterText = counter.dataset.counter || '';
+    const counterText = counter?.dataset.counter || '';
     const domNum = parseInt(counterText);
     const duration = options.duration ?? defaultOptions.duration;
     const delay = options.delay ?? defaultOptions.delay;
@@ -109,7 +132,7 @@ export const useCounter = (options: CounterOptions = {}): CounterMethods => {
   };
 
   const runRandom = (): void => {
-    const counterText = counter.dataset.counter || '';
+    const counterText = counter?.dataset.counter || '';
     const domTextArray = counterText.split('');
     const duration = options.duration ?? defaultOptions.duration;
     const delay = options.delay ?? defaultOptions.delay;
@@ -162,7 +185,7 @@ export const useCounter = (options: CounterOptions = {}): CounterMethods => {
   };
 
   const runStart = (): void => {
-    const counterText = counter.dataset.counter || '';
+    const counterText = counter?.dataset.counter || '';
     const isPureNum = !isNaN(Number(counterText));
     const randomMode = {
       enable: options.randomMode?.enable ?? defaultOptions.randomMode.enable,
@@ -179,7 +202,7 @@ export const useCounter = (options: CounterOptions = {}): CounterMethods => {
   };
 
   const cancelAnimation = (): void => {
-    const counterText = counter.dataset.counter || '';
+    const counterText = counter?.dataset.counter || '';
     const isPureNum = !isNaN(Number(counterText));
     const randomMode = {
       enable: options.randomMode?.enable ?? defaultOptions.randomMode.enable,
