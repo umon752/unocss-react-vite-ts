@@ -108,7 +108,7 @@ const Usage: React.FC<UsageProps> = () => {
     const counters = document.querySelectorAll<HTMLElement>('.js-counter');
     counters.forEach((el) => {
       const instance = useCounter({
-        selector: el,
+        element: el,
         duration: 2000,
         startTime: 500,
         delay: 100,
@@ -124,7 +124,7 @@ const Usage: React.FC<UsageProps> = () => {
     const orgCounters = document.querySelectorAll<HTMLElement>('.js-org-counter');
     orgCounters.forEach((el) => {
       const instance = useCounter({
-        selector: el,
+        element: el,
         duration: 2000,
         startTime: 500,
         delay: 100,
@@ -151,6 +151,7 @@ const Usage: React.FC<UsageProps> = () => {
       instance.run();
     })
   };
+
   const stopCounter = () => {
     counterInstancesRef.current.forEach((instance) => {
       instance.stop();
@@ -180,6 +181,7 @@ const Usage: React.FC<UsageProps> = () => {
       instance.run();
     })
   };
+  
   const stopOrgCounter = () => {
     orgCounterInstancesRef.current.forEach((instance) => {
       instance.stop();

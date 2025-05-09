@@ -106,13 +106,13 @@ export const useCursor = (options: CursorOptions = {}) => {
           const img = target.querySelector<HTMLElement>('[data-cursor-img]');
           if(img) {
             const cursorImg = el.querySelector('img');
-            if(!cursorImg) {
+            if(cursorImg) {
+              cursorW = cursorImg.offsetWidth;
+              cursorH = cursorImg.offsetHeight;
+            } else {
               const src = img.dataset.cursorImg;
               const className = img.classList;
               el.innerHTML = `<img class="${className}" src="${src}" />`;
-            } else {
-              cursorW = cursorImg.offsetWidth;
-              cursorH = cursorImg.offsetHeight;
             }
           } else {
             cursorW = el.offsetWidth;
@@ -180,14 +180,11 @@ export const useCursor = (options: CursorOptions = {}) => {
       cursorsRef.current.forEach((el) => {
         const key = el.dataset.cursor;
         if (!key) return;
-        
         cursorAreasRef.current = document.querySelectorAll<HTMLElement>(`[data-cursor-area="${key}"]`);
-
         cursorAreasRef.current?.forEach((area) => {
           area.removeEventListener('mouseenter', enterArea);
           area.removeEventListener('mousemove', moveArea);
           area.removeEventListener('mouseleave', leaveArea);
-          
           // 如果有啟用 enableLinkHover
           if(enableLinkHover) {
             removeenableLinkHoverEvent(area);

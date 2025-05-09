@@ -20,9 +20,8 @@ export const useDrag = (
     if (!btns?.current) return;
     
     btns.current.forEach((btn) => {
-      if (btn) {
-        btn.style.pointerEvents = value;
-      }
+      if (!btn) return;
+      btn.style.pointerEvents = value;
     });
   };
 
