@@ -41,7 +41,6 @@ export const useCursor = (options: CursorOptions = {}) => {
 
   useEffect(() => {
     cursorsRef.current = document.querySelectorAll<HTMLElement>('[data-cursor]');
-
     const addEffect = (e: Event) => {
       const target = e.currentTarget as HTMLElement;
       const area = target.closest<HTMLElement>('[data-cursor-area]');
@@ -70,7 +69,7 @@ export const useCursor = (options: CursorOptions = {}) => {
       });
     };
 
-    const addenableLinkHoverEvent = (area: HTMLElement) => {
+    const addLinkHoverEvent = (area: HTMLElement) => {
       const links = area.querySelectorAll<HTMLElement>(linkTags);
       links.forEach((link) => {
         link.addEventListener('mouseenter', addEffect);
@@ -78,7 +77,7 @@ export const useCursor = (options: CursorOptions = {}) => {
       });
     };
 
-    const removeenableLinkHoverEvent = (area: HTMLElement) => {
+    const removeLinkHoverEvent = (area: HTMLElement) => {
       const links = area.querySelectorAll<HTMLElement>(linkTags);
       links.forEach((link) => {
         link.removeEventListener('mouseenter', addEffect);
@@ -168,7 +167,7 @@ export const useCursor = (options: CursorOptions = {}) => {
 
           // 如果有啟用 enableLinkHover
           if(enableLinkHover) {
-            addenableLinkHoverEvent(area);
+            addLinkHoverEvent(area);
           }
         });
       });
@@ -187,7 +186,7 @@ export const useCursor = (options: CursorOptions = {}) => {
           area.removeEventListener('mouseleave', leaveArea);
           // 如果有啟用 enableLinkHover
           if(enableLinkHover) {
-            removeenableLinkHoverEvent(area);
+            removeLinkHoverEvent(area);
           }
         });
       });
@@ -195,5 +194,5 @@ export const useCursor = (options: CursorOptions = {}) => {
 
     setupEventListeners();
     return cleanupEventListeners;
-  }, [enter, move, leave, enableLinkHover, activeClass, linkClass, enableHideCursor]);
+  }, []);
 };

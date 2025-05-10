@@ -1,5 +1,5 @@
 type CounterOptions = {
-  element: HTMLElement | null;
+  selector?: string;
   duration?: number;
   startTime?: number;
   delay?: number;
@@ -11,21 +11,6 @@ type CounterOptions = {
   done?: () => void;
 };
 
-type CounterTextItem = {
-  timerId: number | null;
-  durationTimestamp: number | null;
-  orgText: string;
-  randomText: string | null;
-};
-
-type CounterState = {
-  currentNum: number;
-  startNum: number;
-  timerId: number | null;
-  singleTextArray: CounterTextItem[];
-  isStop: boolean;
-};
-
 type CounterMethods = {
   run: () => () => void;
   stop: () => void;
@@ -34,10 +19,10 @@ type CounterMethods = {
   restart: () => () => void;
 };
 
-export const useCounter = (options: CounterOptions): CounterMethods => {
+export const useCounter = (options: CounterOptions = {}): CounterMethods => {
   // 預設值
   const defaultOptions: Required<CounterOptions> = {
-    element: null,
+    selector: '',
     duration: 1000,
     startTime: 0,
     delay: 0,
@@ -49,18 +34,8 @@ export const useCounter = (options: CounterOptions): CounterMethods => {
     done: () => {},
   }
 
-  const counter = options.element ?? defaultOptions.element;
-  const duration = options.duration ?? defaultOptions.duration;
-  const startTime = options.startTime ?? defaultOptions.startTime;
-  const delay = options.delay ?? defaultOptions.delay;
-  // const startNum = options.startNum ?? defaultOptions.startNum;
-  const randomMode = {
-    enable: options.randomMode?.enable ?? defaultOptions.randomMode.enable,
-    thousandComma: options.randomMode?.thousandComma ?? defaultOptions.randomMode.thousandComma,
-  };
-  const done = options.done ?? defaultOptions.done;
-
-  const counterStates: CounterState = {
+  const counter = options.selector ?? defaultOptions.selector;
+  const counterStates = {
     currentNum: 0,
     startNum: options.startNum ?? defaultOptions.startNum,
     timerId: null,
@@ -68,9 +43,7 @@ export const useCounter = (options: CounterOptions): CounterMethods => {
     isStop: false,
   }
 
-  if(counter) {
-    counter.textContent = counterStates.startNum.toString();
-  }
+  counter.textContent = counterStates.startNum.toString();
 
   const getRandomNum = (maxNum: number): number => {
     return Math.floor(Math.random() * maxNum);
@@ -82,28 +55,31 @@ export const useCounter = (options: CounterOptions): CounterMethods => {
   };
 
   const render = (isDone = false): void => {
-    const counterText = counter?.dataset.counter || '';
+    const counterText = counter.dataset.counter || '';
     const isPureNum = !isNaN(Number(counterText));
+    const randomMode = {
+      enable: options.randomMode?.enable ?? defaultOptions.randomMode.enable,
+      thousandComma: options.randomMode?.thousandComma ?? defaultOptions.randomMode.thousandComma,
+    };
     if (!randomMode.enable && isPureNum) {
       if(isDone) {
-        if(!counter) return;
         counter.textContent = randomMode.thousandComma ? setThousandComma(parseInt(counterText)) : parseInt(counterText).toString();
       } else {
-        if(!counter) return;
         counter.textContent = randomMode.thousandComma ? setThousandComma(Math.floor(counterStates.currentNum)) : Math.floor(counterStates.currentNum).toString();
       }
     } else {
       const str = counterStates.singleTextArray.map((item) => {
         return isDone ? item.orgText : (item.randomText || '');
       }).join('');
-      if(!counter) return;
       counter.textContent = str;
     }
   };
 
   const runSequential = (): void => {
-    const counterText = counter?.dataset.counter || '';
+    const counterText = counter.dataset.counter || '';
     const domNum = parseInt(counterText);
+    const duration = options.duration ?? defaultOptions.duration;
+    const delay = options.delay ?? defaultOptions.delay;
     let delayTimestamp = 0;
 
     const runCount = (timestamp: number): void => {
@@ -111,14 +87,16 @@ export const useCounter = (options: CounterOptions): CounterMethods => {
       counterStates.currentNum = counterStates.currentNum + increasmentPerFrame;
       
       if (counterStates.currentNum < domNum) {
-        if (counterStates.isStop) return;
-        if (timestamp - delayTimestamp >= delay) {
-          render();
-          delayTimestamp = timestamp;
+        if (!counterStates.isStop) {
+          if (timestamp - delayTimestamp >= delay) {
+            render();
+            delayTimestamp = timestamp;
+          }
+          requestAnimationFrame(runCount);
         }
-        requestAnimationFrame(runCount);
       } else {
         render(true);
+        const done = options.done ?? defaultOptions.done;
         done();
       }
     };
@@ -131,8 +109,10 @@ export const useCounter = (options: CounterOptions): CounterMethods => {
   };
 
   const runRandom = (): void => {
-    const counterText = counter?.dataset.counter || '';
+    const counterText = counter.dataset.counter || '';
     const domTextArray = counterText.split('');
+    const duration = options.duration ?? defaultOptions.duration;
+    const delay = options.delay ?? defaultOptions.delay;
     const maxNum = 9;
     let isDone = false;
     let delayTimestamp = 0;
@@ -145,42 +125,48 @@ export const useCounter = (options: CounterOptions): CounterMethods => {
         randomText: null,
       };
 
-      if (isNaN(Number(text))) {
-        counterStates.singleTextArray[i].randomText = text;
-      } else {
+      if (!isNaN(Number(text))) {
         const runCount = (timestamp: number): void => {
-          let elapsedTime = 0;
-          if (counterStates.singleTextArray[i].durationTimestamp) {
-            elapsedTime = timestamp - (counterStates.singleTextArray[i].durationTimestamp || 0);
-          } else {
+          if (!counterStates.singleTextArray[i].durationTimestamp) {
             counterStates.singleTextArray[i].durationTimestamp = timestamp;
           }
 
+          const elapsedTime = timestamp - (counterStates.singleTextArray[i].durationTimestamp || 0);
+
           if (elapsedTime < duration) {
-            if(counterStates.isStop) return;
-            counterStates.singleTextArray[i].randomText = getRandomNum(maxNum).toString();
-            if (timestamp - delayTimestamp >= delay) {
-              setTimeout(() => {
-                render();
-              }, 0);
-              delayTimestamp = timestamp;
+            if (!counterStates.isStop) {
+              counterStates.singleTextArray[i].randomText = getRandomNum(maxNum).toString();
+
+              if (timestamp - delayTimestamp >= delay) {
+                setTimeout(() => {
+                  render();
+                }, 0);
+                delayTimestamp = timestamp;
+              }
+              requestAnimationFrame(runCount);
             }
-            requestAnimationFrame(runCount);
           } else {
-            if (isDone) return;
-            render(true);
-            done();
-            isDone = true;
+            if (!isDone) {
+              render(true);
+              const done = options.done ?? defaultOptions.done;
+              done();
+              isDone = true;
+            }
           }
         };
         counterStates.singleTextArray[i].timerId = requestAnimationFrame(runCount);
+      } else {
+        counterStates.singleTextArray[i].randomText = text;
       }
     });
   };
 
   const runStart = (): void => {
-    const counterText = counter?.dataset.counter || '';
+    const counterText = counter.dataset.counter || '';
     const isPureNum = !isNaN(Number(counterText));
+    const randomMode = {
+      enable: options.randomMode?.enable ?? defaultOptions.randomMode.enable,
+    };
     if (!randomMode.enable && !isPureNum) {
       console.warn('randomMode enable cannot be used false');
     }
@@ -193,53 +179,65 @@ export const useCounter = (options: CounterOptions): CounterMethods => {
   };
 
   const cancelAnimation = (): void => {
-    const counterText = counter?.dataset.counter || '';
+    const counterText = counter.dataset.counter || '';
     const isPureNum = !isNaN(Number(counterText));
+    const randomMode = {
+      enable: options.randomMode?.enable ?? defaultOptions.randomMode.enable,
+    };
     if (!randomMode.enable && isPureNum) {
-      if(!counterStates.timerId) return;
-      cancelAnimationFrame(counterStates.timerId);
+      if (counterStates.timerId) {
+        cancelAnimationFrame(counterStates.timerId);
+      }
     } else {
       counterStates.singleTextArray.forEach((item) => {
-        if(!item.timerId) return;
-        cancelAnimationFrame(item.timerId);
+        if (item.timerId) {
+          cancelAnimationFrame(item.timerId);
+        }
       });
     }
   };
 
   const run = (): (() => void) => {
+    const startTime = options.startTime ?? defaultOptions.startTime;
     let timerId: number | null = null;
-    if(!counter) return () => {};
-    counterStates.isStop = false;
+    if (counter) {
+      counterStates.isStop = false;
 
-    timerId = window.setTimeout(() => {
-      if(!counter) return;
-      runStart();
-    }, startTime);
+      timerId = window.setTimeout(() => {
+        if (counter) {
+          runStart();
+        }
+      }, startTime);
+    }
     return () => {
-      if(!timerId) return;
-      clearTimeout(timerId);
+      if (timerId) {
+        clearTimeout(timerId);
+      }
     };
   };
 
   const stop = (): void => {
-    if(!counter) return;
-    cancelAnimation();
-    counterStates.isStop = true;
+    if (counter) {
+      cancelAnimation();
+      counterStates.isStop = true;
+    }
   };
 
   const start = (): void => {
-    if(!counter) return;
-    runStart();
-    counterStates.isStop = false;
+    if (counter) {
+      runStart();
+      counterStates.isStop = false;
+    }
   };
 
   const reset = (): void => {
-    if(!counter) return;
-    cancelAnimation();
-    counterStates.isStop = true;
-    counterStates.timerId = null;
-    counterStates.currentNum = counterStates.startNum;
-    counter.textContent = counterStates.startNum.toString();
+    if (counter) {
+      cancelAnimation();
+      counterStates.isStop = true;
+      counterStates.timerId = null;
+      counterStates.currentNum = counterStates.startNum;
+      counter.textContent = counterStates.startNum.toString();
+    }
   };
 
   const restart = (): (() => void) => {
@@ -251,8 +249,9 @@ export const useCounter = (options: CounterOptions): CounterMethods => {
     }, fps);
 
     return () => {
-      if(!timerId) return;
-      clearTimeout(timerId);
+      if (timerId) {
+        clearTimeout(timerId);
+      }
     };
   };
 

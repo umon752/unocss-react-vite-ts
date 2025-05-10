@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 // hooks
 import { useScrollToTop } from '@/hooks/useScrollToTop';
@@ -7,6 +7,7 @@ import { useCopyUrl } from '@/hooks/useCopyUrl';
 import { useObserverFade } from '@/hooks/useObserverFade';
 import { useCounter } from '@/hooks/useCounter';
 import { useCursor } from '@/hooks/useCursor';
+import { useMarquee } from '@/hooks/useMarquee';
 // components
 import DefaultImg from '@/views/components/DefaultImg';
 import Breadcrumb from '@/views/components/Breadcrumb';
@@ -78,6 +79,7 @@ const Usage: React.FC<UsageProps> = () => {
   useObserverFade('[data-fade]');
   const counterInstancesRef = useRef<any[]>([]);
   const orgCounterInstancesRef = useRef<any[]>([]);
+  const marqueeInstancesRef = useRef<any[]>([]);
 
   useCursor({
     enableLinkHover: true,
@@ -103,6 +105,63 @@ const Usage: React.FC<UsageProps> = () => {
     // },
   });
 
+  // marquee
+  useEffect(() => {
+    const marquees = document.querySelectorAll<HTMLElement>('.js-marquee');
+    marquees.forEach((el) => {
+      const instance = useMarquee({
+        element: el,
+        speed: 1,
+        enableHovePause: true,
+        enableDrag: true,
+        activeClass: ['bg-blue-300', 'text-white'],
+      });
+      instance.initial();
+      marqueeInstancesRef.current.push(instance);
+    })
+
+    return () => {
+      marqueeInstancesRef.current.forEach((instance) => {
+        instance.unmount();
+      });
+      marqueeInstancesRef.current = [];
+      // if (marqueeMethods) {
+      //   marqueeMethods.unmount();
+      // }
+    };
+  }, []);
+
+  const stopMarquee = () => {
+    marqueeInstancesRef.current.forEach((instance) => {
+      instance.stop();
+    })
+  };
+
+  const startMarquee = () => {
+    marqueeInstancesRef.current.forEach((instance) => {
+      instance.start();
+    })
+  };
+
+  const refreshMarquee = () => {
+    marqueeInstancesRef.current.forEach((instance) => {
+      instance.refresh();
+    })
+  };
+
+  const prevMarquee = () => {
+    marqueeInstancesRef.current.forEach((instance) => {
+      instance.prev();
+    })
+  };
+
+  const nextMarquee = () => {
+    marqueeInstancesRef.current.forEach((instance) => {
+      instance.next();
+    })
+  };
+
+  // counter
   useEffect(() => {
     // counter 可包含非純數字
     const counters = document.querySelectorAll<HTMLElement>('.js-counter');
@@ -198,7 +257,7 @@ const Usage: React.FC<UsageProps> = () => {
     orgCounterInstancesRef.current.forEach((instance) => {
       instance.reset();
     })
-};
+  };
 
   const restartOrgCounter = () => {
     orgCounterInstancesRef.current.forEach((instance) => {
@@ -219,17 +278,37 @@ const Usage: React.FC<UsageProps> = () => {
       <div className="g-container pt-15 pb-50">
         <H1 text={'Usage'} />
 
+        <H2 text={'Marquee'} />
+        <div className="flex flex-(items-center) gap-10 overflow-x-hidden js-marquee">
+          <div>
+            <div className="w-700 h-300 bg-blue-100 u-flex-center u-transition-ease">item1</div>
+          </div>
+          <div>
+            <div className="w-700 h-300 bg-blue-100 u-flex-center u-transition-ease">item2</div>
+          </div>
+          <div>
+            <div className="w-700 h-300 bg-blue-100 u-flex-center u-transition-ease">item3</div>
+          </div>
+        </div>
+        <div className="flex gap-10 mt-10">
+          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={stopMarquee}>暫停</button>
+          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={startMarquee}>開始</button>
+          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={refreshMarquee}>更新</button>
+          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={prevMarquee}>prev</button>
+          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={nextMarquee}>next</button>
+        </div>
+
         <H2 text={'Cursor'} />
-        <div className="w-300 h-300 bg-blue-300 u-flex-center flex-col gap-10" data-cursor-area="0">
-          <a href="#!" className="rounded-4 bg-blue-800 text-white p-8">連結</a>
-          <button type="button" className="rounded-4 bg-blue-800 text-white p-8">按鈕</button>
-          <div className="w-100 h-100 bg-blue-500 u-flex-center text-white" data-cursor-box>區域</div>
+        <div className="w-300 h-300 bg-blue-100 u-flex-center flex-col gap-10" data-cursor-area="0">
+          <a href="#!" className="rounded-4 bg-blue-500 text-white p-8">連結</a>
+          <button type="button" className="rounded-4 bg-blue-500 text-white p-8">按鈕</button>
+          <div className="w-100 h-100 bg-blue-300 u-flex-center text-white" data-cursor-box>區域</div>
         </div>
         <div className="w-30 h-30 rounded-full bg-white fixed top-0 left-0 pointer-events-none mix-blend-difference opacity-0 transition-[opacity,width,height] duration-200 ease-linear" data-cursor="0"></div>
 
-        <div className="w-300 h-300 bg-blue-300 u-flex-center flex-col gap-10" data-cursor-area="1">
-          <a href="#!" className="rounded-4 bg-blue-800 text-white p-8">連結</a>
-          <button type="button" className="rounded-4 bg-blue-800 text-white p-8">按鈕</button>
+        <div className="w-300 h-300 bg-blue-100 u-flex-center flex-col gap-10" data-cursor-area="1">
+          <a href="#!" className="rounded-4 bg-blue-500 text-white p-8">連結</a>
+          <button type="button" className="rounded-4 bg-blue-500 text-white p-8">按鈕</button>
           <div className="w-200 u-img-contain" data-cursor-img="./src/assets/images/test.jpg"></div>
         </div>
         <div className="pointer-events-none fixed top-0 left-0 opacity-0 transition-[opacity,width,height] duration-200 ease-linear" data-cursor="1"></div>
