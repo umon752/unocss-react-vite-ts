@@ -31,7 +31,7 @@ const CountBtn: React.FC<CountProps>  = ({ defaultQty = 0, minQty = 0, maxQty = 
   }
 
   return (
-    <div className="flex flex-(align-center)">
+    <div className="flex flex-(items-center)">
       <button type="button" className={`rounded-4 bg-blue-300 text-white p-8 ${qty <= minQty ? 'pointer-events-none opacity-50' : ''}`} onClick={minusQty}>-</button>
       <input type="text" value={qty} className="text-center" onChange={changeQty} />
       <button type="button" className={`rounded-4 bg-blue-300 text-white p-8 ${qty >= maxQty ? 'pointer-events-none opacity-50' : ''}`} onClick={plusQty}>+</button>
