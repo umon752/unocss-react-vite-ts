@@ -20,6 +20,7 @@ import NewEditor from '@/views/components/NewEditor';
 import Spinner from '@/views/components/Spinner';
 import Accordion from '@/views/components/Accordion';
 import Tab from '@/views/components/Tab';
+import CountBtn from '@/views/components/CountBtn';
 import { showToast } from '@/redux/slice/toastSlice';
 import { showModal } from '@/redux/slice/modalSlice';
 import Form from '@/views/pages/Form';
@@ -277,6 +278,9 @@ const Usage: React.FC<UsageProps> = () => {
     <>
       <div className="g-container pt-15 pb-50">
         <H1 text={'Usage'} />
+
+        <H2 text={'CountBtn'} />
+        <CountBtn defaultQty="2" minQty="0" maxQty="5" />
 
         <H2 text={'Marquee'} />
         <div className="flex flex-(items-center) gap-10 overflow-x-hidden js-marquee">
