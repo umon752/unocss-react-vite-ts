@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 // hooks
 import { useScrollToTop } from '@/hooks/useScrollToTop';
@@ -26,6 +26,7 @@ import { showModal } from '@/redux/slice/modalSlice';
 import Form from '@/views/pages/Form';
 import ReactHookForm from '@/views/pages/ReactHookForm';
 // import TanstackForm from '@/views/pages/TanstackForm';
+import AllDataInfiniteScroll from '@/views/pages/AllDataInfiniteScroll';
 
 type H1Props = {
   text: string;
@@ -279,66 +280,8 @@ const Usage: React.FC<UsageProps> = () => {
       <div className="g-container pt-15 pb-50">
         <H1 text={'Usage'} />
 
-        <H2 text={'CountBtn'} />
-        <CountBtn defaultQty="2" minQty="0" maxQty="5" />
-
-        <H2 text={'Marquee'} />
-        <div className="flex flex-(items-center) gap-10 overflow-x-hidden js-marquee">
-          <div>
-            <div className="w-700 h-300 bg-blue-100 u-flex-center u-transition-ease">item1</div>
-          </div>
-          <div>
-            <div className="w-700 h-300 bg-blue-100 u-flex-center u-transition-ease">item2</div>
-          </div>
-          <div>
-            <div className="w-700 h-300 bg-blue-100 u-flex-center u-transition-ease">item3</div>
-          </div>
-        </div>
-        <div className="flex gap-10 mt-10">
-          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={stopMarquee}>暫停</button>
-          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={startMarquee}>開始</button>
-          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={refreshMarquee}>更新</button>
-          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={prevMarquee}>prev</button>
-          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={nextMarquee}>next</button>
-        </div>
-
-        <H2 text={'Cursor'} />
-        <div className="w-300 h-300 bg-blue-100 u-flex-center flex-col gap-10" data-cursor-area="0">
-          <a href="#!" className="rounded-4 bg-blue-500 text-white p-8">連結</a>
-          <button type="button" className="rounded-4 bg-blue-500 text-white p-8">按鈕</button>
-          <div className="w-100 h-100 bg-blue-300 u-flex-center text-white" data-cursor-box>區域</div>
-        </div>
-        <div className="w-30 h-30 rounded-full bg-white fixed top-0 left-0 pointer-events-none mix-blend-difference opacity-0 transition-[opacity,width,height] duration-200 ease-linear" data-cursor="0"></div>
-
-        <div className="w-300 h-300 bg-blue-100 u-flex-center flex-col gap-10" data-cursor-area="1">
-          <a href="#!" className="rounded-4 bg-blue-500 text-white p-8">連結</a>
-          <button type="button" className="rounded-4 bg-blue-500 text-white p-8">按鈕</button>
-          <div className="w-200 u-img-contain" data-cursor-img="./src/assets/images/test.jpg"></div>
-        </div>
-        <div className="pointer-events-none fixed top-0 left-0 opacity-0 transition-[opacity,width,height] duration-200 ease-linear" data-cursor="1"></div>
-
-
-        <H2 text={'Counter'} />
-        <div className="u-h2 text-blue fw-bold mb-10 js-counter" data-counter="123,567.98"></div>
-        <div className="u-h2 text-blue fw-bold mb-10 js-counter" data-counter="123"></div>
-        <h3 className="inline-block bg-blue-50 rounded-8 px-16 py-12 mb-10">可包含非純數字</h3>
-        <div className="flex gap-10">
-          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={runCounter}>可包含非純數字 run</button>
-          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={stopCounter}>可包含非純數字 stop</button>
-          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={startCounter}>可包含非純數字 start</button>
-          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={resetCounter}>可包含非純數字 reset</button>
-          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={restartCounter}>可包含非純數字 restart</button>
-        </div>
-        <br/>
-        <div className="u-h2 text-blue fw-bold mb-10 js-org-counter" data-counter="1000"></div>
-        <h3 className="inline-block bg-blue-50 rounded-8 px-16 py-12 mb-10">只可設定純數字</h3>
-        <div className="flex gap-10">
-          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={runOrgCounter}>只可設定純數字 run</button>
-          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={stopOrgCounter}>只可設定純數字 stop</button>
-          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={startOrgCounter}>只可設定純數字 start</button>
-          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={resetOrgCounter}>只可設定純數字 reset</button>
-          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={restartOrgCounter}>只可設定純數字 restart</button>
-        </div>
+        <H2 text={'AllDataInfiniteScroll'} />
+        <AllDataInfiniteScroll />
 
 
         {/* TODO */}
@@ -706,6 +649,9 @@ const Usage: React.FC<UsageProps> = () => {
           <div className="b-b-dotted b-blue-300 border-width-4"></div>
         </div>
 
+        <H2 text={'CountBtn'} />
+        <CountBtn defaultQty="2" minQty="0" maxQty="5" />
+
         <H1 text={'Methods'} />
 
         <H2 text={'ScrollToTop'} />
@@ -740,6 +686,63 @@ const Usage: React.FC<UsageProps> = () => {
           <button type="button" className="text-white bg-main rounded-4 p-4" onClick={() => shareSocial('fb')}>fb share</button>
           <button type="button" className="text-white bg-main rounded-4 p-4" onClick={() => shareSocial('line')}>line share</button>
           <button type="button" className="text-white bg-main rounded-4 p-4" onClick={() => shareSocial('x')}>x share</button>
+        </div>
+
+        <H2 text={'Marquee'} />
+        <div className="flex flex-(items-center) gap-10 overflow-x-hidden js-marquee">
+          <div>
+            <div className="w-700 h-300 bg-blue-100 u-flex-center u-transition-ease">item1</div>
+          </div>
+          <div>
+            <div className="w-700 h-300 bg-blue-100 u-flex-center u-transition-ease">item2</div>
+          </div>
+          <div>
+            <div className="w-700 h-300 bg-blue-100 u-flex-center u-transition-ease">item3</div>
+          </div>
+        </div>
+        <div className="flex gap-10 mt-10">
+          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={stopMarquee}>暫停</button>
+          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={startMarquee}>開始</button>
+          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={refreshMarquee}>更新</button>
+          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={prevMarquee}>prev</button>
+          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={nextMarquee}>next</button>
+        </div>
+
+        <H2 text={'Cursor'} />
+        <div className="w-300 h-300 bg-blue-100 u-flex-center flex-col gap-10" data-cursor-area="0">
+          <a href="#!" className="rounded-4 bg-blue-500 text-white p-8">連結</a>
+          <button type="button" className="rounded-4 bg-blue-500 text-white p-8">按鈕</button>
+          <div className="w-100 h-100 bg-blue-300 u-flex-center text-white" data-cursor-box>區域</div>
+        </div>
+        <div className="w-30 h-30 rounded-full bg-white fixed top-0 left-0 pointer-events-none mix-blend-difference opacity-0 transition-[opacity,width,height] duration-200 ease-linear" data-cursor="0"></div>
+
+        <div className="w-300 h-300 bg-blue-100 u-flex-center flex-col gap-10" data-cursor-area="1">
+          <a href="#!" className="rounded-4 bg-blue-500 text-white p-8">連結</a>
+          <button type="button" className="rounded-4 bg-blue-500 text-white p-8">按鈕</button>
+          <div className="w-200 u-img-contain" data-cursor-img="./src/assets/images/test.jpg"></div>
+        </div>
+        <div className="pointer-events-none fixed top-0 left-0 opacity-0 transition-[opacity,width,height] duration-200 ease-linear" data-cursor="1"></div>
+
+        <H2 text={'Counter'} />
+        <div className="u-h2 text-blue fw-bold mb-10 js-counter" data-counter="123,567.98"></div>
+        <div className="u-h2 text-blue fw-bold mb-10 js-counter" data-counter="123"></div>
+        <h3 className="inline-block bg-blue-50 rounded-8 px-16 py-12 mb-10">可包含非純數字</h3>
+        <div className="flex gap-10">
+          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={runCounter}>可包含非純數字 run</button>
+          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={stopCounter}>可包含非純數字 stop</button>
+          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={startCounter}>可包含非純數字 start</button>
+          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={resetCounter}>可包含非純數字 reset</button>
+          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={restartCounter}>可包含非純數字 restart</button>
+        </div>
+        <br/>
+        <div className="u-h2 text-blue fw-bold mb-10 js-org-counter" data-counter="1000"></div>
+        <h3 className="inline-block bg-blue-50 rounded-8 px-16 py-12 mb-10">只可設定純數字</h3>
+        <div className="flex gap-10">
+          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={runOrgCounter}>只可設定純數字 run</button>
+          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={stopOrgCounter}>只可設定純數字 stop</button>
+          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={startOrgCounter}>只可設定純數字 start</button>
+          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={resetOrgCounter}>只可設定純數字 reset</button>
+          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={restartOrgCounter}>只可設定純數字 restart</button>
         </div>
 
       </div>

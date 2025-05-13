@@ -61,7 +61,6 @@ export const useMarquee = (options: MarqueeOptions): MarqueeMethods => {
   const enableDrag = options.enableDrag ?? defaultOptions.enableDrag;
   const activeClass = options.activeClass ?? defaultOptions.activeClass;
   const reverseDirection = options.reverseDirection ?? defaultOptions.reverseDirection;
-  const init = options.init ?? defaultOptions.init;
 
   const marqueeStates: MarqueeState = {
     cloneChild: null,
