@@ -7,6 +7,37 @@ type PaginationProps = {
 };
 
 const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPageChange }) => {
+  if(currentPage > totalPages) {
+    console.error('The current page is greater than the total number of pages');
+    return null;
+  }
+
+  const displayRange = 2;
+  const paginationItems = [];
+
+  for (let index = 1; index <= totalPages; index++) {
+    if (
+      index === 1 ||
+      index === totalPages ||
+      (index >= currentPage - displayRange && index <= currentPage + displayRange)
+    ) {
+      paginationItems.push(
+        <li key={index} className="u-flex-center px-[5px]">
+          <a
+            className={`u-flex-center w-[30px] h-[30px] text-dark rounded-full @hover:(text-dark) ${currentPage === index ? 'bg-main text-white' : ''}`}
+            onClick={() => handlePageChange(index)}
+          >
+            {index}
+          </a>
+        </li>
+      );
+    } else if ((index === currentPage - displayRange - 1) || (index === currentPage + displayRange + 1)) {
+      paginationItems.push(
+        <li className="u-flex-center px-[5px]"><div className="u-flex-center w-[30px] h-[30px] text-dark rounded-full @hover:(text-dark)">...</div></li>
+      )
+    }
+  }
+
   const handlePageChange = (page: number) => {
     if (page >= 1 && page <= totalPages) {
       onPageChange(page);
@@ -15,31 +46,23 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
 
   return (
     <nav>
-      <ul className="flex flex-justify-center mx--5 mb-0">
-        <li className={`u-flex-center px-5`}>
+      <ul className="flex flex-justify-center mx-[-5px] mb-0">
+        <li className={`u-flex-center px-[5px]`}>
           <a className={`text-dark u-flex-center @hover:(text-dark) ${currentPage === 1 && 'opacity-50 pointer-event-none'}`} onClick={() => handlePageChange(1)}>第一頁</a>
         </li>
-        <li className="u-flex-center px-5">
-          <a className="w-30 h-30 text-dark u-flex-center rounded-full @hover:(text-dark)" onClick={() => handlePageChange(currentPage - 1)}>
+        <li className="u-flex-center px-[5px]">
+          <a className="u-flex-center w-[30px] h-[30px] text-dark rounded-full @hover:(text-dark)" onClick={() => handlePageChange(currentPage - 1)}>
             <span className="i-iconamoon:arrow-left-2-light"></span>
           </a>
         </li>
-        <li className="u-flex-center px-5">
-          <a className={`w-30 h-30 text-dark u-flex-center rounded-full @hover:(text-dark) ${currentPage === 1 && 'bg-main text-white'}`} onClick={() => handlePageChange(1)}>1</a>
-        </li>
-        {currentPage > 2 && <li className="u-flex-center px-5"><div className="w-30 h-30 text-dark u-flex-center rounded-full @hover:(text-dark)">...</div></li>}
-        {Array.from({ length: totalPages - 1 }, (_, index) => (
-          <li key={index + 2} className="u-flex-center px-5">
-            <a className={`w-30 h-30 text-dark u-flex-center rounded-full @hover:(text-dark) ${currentPage === index + 2 && 'bg-main text-white'}`} onClick={() => handlePageChange(index + 2)}>{index + 2}</a>
-          </li>
-        ))}
-        <li className="u-flex-center px-5">
-          <a className="w-30 h-30 text-dark u-flex-center rounded-full @hover:(text-dark)" onClick={() => handlePageChange(currentPage + 1)}>
+        {paginationItems}
+        <li className="u-flex-center px-[5px]">
+          <a className="u-flex-center w-[30px] h-[30px] text-dark rounded-full @hover:(text-dark)" onClick={() => handlePageChange(currentPage + 1)}>
             <span className="i-iconamoon:arrow-right-2-light"></span>
           </a>
         </li>
-        <li className="u-flex-center px-5">
-          <a className={`text-dark u-flex-center @hover:(text-dark) ${currentPage === 1 && 'opacity-50 pointer-event-none'}`} onClick={() => handlePageChange(totalPages)}>最後一頁</a>
+        <li className="u-flex-center px-[5px]">
+          <a className={`u-flex-center text-dark @hover:(text-dark) ${currentPage === 1 && 'opacity-50 pointer-event-none'}`} onClick={() => handlePageChange(totalPages)}>最後一頁</a>
         </li>
       </ul>
     </nav>

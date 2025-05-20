@@ -23,9 +23,6 @@ import Tab from '@/views/components/Tab';
 import CountBtn from '@/views/components/CountBtn';
 import { showToast } from '@/redux/slice/toastSlice';
 import { showModal } from '@/redux/slice/modalSlice';
-import Form from '@/views/pages/Form';
-import ReactHookForm from '@/views/pages/ReactHookForm';
-// import TanstackForm from '@/views/pages/TanstackForm';
 import AllDataInfiniteScroll from '@/views/pages/AllDataInfiniteScroll';
 
 type H1Props = {
@@ -34,7 +31,7 @@ type H1Props = {
 
 const H1: React.FC<H1Props> = ({ text }) => {
   return (
-    <div className="u-h1 font-bold text-blue-500 border-b-solid border-1 py-16 my-16">{text}</div>
+    <div className="u-h1 font-bold text-blue-500 border-b-solid border-1 py-[16px] my-[16px]">{text}</div>
   );
 };
 
@@ -44,7 +41,7 @@ type H2Props = {
 
 const H2: React.FC<H2Props> = ({ text }) => {
   return (
-    <div className="u-h2 font-bold text-blue-500 border-b-solid border-1 py-16 my-16">{text}</div>
+    <div className="u-h2 font-bold text-blue-500 border-b-solid border-1 py-[16px] my-[16px]">{text}</div>
   );
 };
 
@@ -54,7 +51,7 @@ type H3Props = {
 
 const H3: React.FC<H3Props> = ({ text }) => {
   return (
-    <div className="u-h3 font-bold text-blue-500 my-20">{text}</div>
+    <div className="u-h3 font-bold text-blue-500 my-[20px]">{text}</div>
   );
 };
 
@@ -65,7 +62,7 @@ type DirectionProps = {
 
 const Direction: React.FC<DirectionProps> = ({ text, isLast = false }) => {
   return (
-    <div className={`bg-blue-50 rounded-8 px-16 py-12 ${isLast ? '' : 'mb-10'}`}>{text}</div>
+    <div className={`bg-blue-50 rounded-[8px] px-[16px] py-[12px] ${isLast ? '' : 'mb-[10px]'}`}>{text}</div>
   );
 };
 
@@ -85,15 +82,17 @@ const Usage: React.FC<UsageProps> = () => {
 
   useCursor({
     enableLinkHover: true,
-    linkClass: ['w-50', 'h-50'],
+    linkClass: ['w-[50px]', 'h-[50px]'],
     activeClass: ['opacity-100'],
     // enableHideCursor: true,
     // enableTouch: true,
     // enter(e) {
       // console.log('enter', e);
     // },
-    move(e, cursor) {
-      if(e.target.dataset.cursorBox) {
+    move(e: MouseEvent, cursor: Element) {
+      if(!e.target) return;
+      const target = e.target as HTMLElement;
+      if(target.dataset.cursorBox) {
         const box = e.target;
         cursor.textContent = 'box';
         box.addEventListener('mouseleave', () => {
@@ -277,26 +276,12 @@ const Usage: React.FC<UsageProps> = () => {
   }, [])
   return (
     <>
-      <div className="g-container pt-15 pb-50">
+      <div className="g-container pt-[15px] pb-[50px]">
         <H1 text={'Usage'} />
 
         <H2 text={'AllDataInfiniteScroll'} />
         <AllDataInfiniteScroll />
-
-
-        {/* TODO */}
-        <H2 text={'Form'} />
-        <Form />
-
-
-        <H3 text={'React Hook Form'} />
-        <ReactHookForm />
-
-
-        <H3 text={'TanStack Form'} />
-        {/* <TanstackForm /> */}
         
-
         <Direction text={'左右方向(適用於所有書寫方向)｜margin、padding、text-align 使用 ms/me/mx/ps/pe/px/text-start/text-end'} isLast={true} />
 
         <H2 text={'HTML (Reset)'} />
@@ -321,27 +306,27 @@ const Usage: React.FC<UsageProps> = () => {
 
         <H2 text={'Grid'} />
         <div className="g-grid grid-cols-2 sm-grid-cols-4">
-          <div className="w-full h-100 bg-blue-300"></div>
-          <div className="w-full h-100 bg-blue-300"></div>
-          <div className="w-full h-100 bg-blue-300"></div>
-          <div className="w-full h-100 bg-blue-300"></div>
+          <div className="w-full h-[100px] bg-blue-300"></div>
+          <div className="w-full h-[100px] bg-blue-300"></div>
+          <div className="w-full h-[100px] bg-blue-300"></div>
+          <div className="w-full h-[100px] bg-blue-300"></div>
         </div>
 
         <H2 text={'Icon'} />
         <div className='flex flex-items-center'>
-          <div className='me-4'>使用 presetIcons.collections 自訂 icon (此方式預設會將圖示變成 data:image，所以設定顏色無效)｜</div>
+          <div className='me-[4px]'>使用 presetIcons.collections 自訂 icon (此方式預設會將圖示變成 data:image，所以設定顏色無效)｜</div>
           <div className="i-custom:circle text-blue-300"></div>
         </div>
         <div className='flex flex-items-center'>
-          <div className='me-4'>使用 presetIcons.collections 自訂 icon (加上 ?mask 會將圖示變成 mask image，可以設定顏色) ｜</div>
+          <div className='me-[4px]'>使用 presetIcons.collections 自訂 icon (加上 ?mask 會將圖示變成 mask image，可以設定顏色) ｜</div>
           <div className="i-custom:circle?mask text-blue-300"></div>
         </div>
         <div className='flex flex-items-center'>
-          <div className='me-4'>安裝 iconify 的 icon｜</div>
+          <div className='me-[4px]'>安裝 iconify 的 icon｜</div>
           <div className="i-material-symbols:language text-blue-300"></div>
         </div>
         <div className='flex flex-items-center'>
-          <div className='me-4'>使用 svg iconfont｜</div>
+          <div className='me-[4px]'>使用 svg iconfont｜</div>
           <svg className="u-icon icon-upload text-blue-300"><use xlinkHref="./src/assets/images/icon/symbol-defs.svg#icon-upload"></use></svg>
         </div>
 
@@ -391,12 +376,12 @@ const Usage: React.FC<UsageProps> = () => {
         </div>
 
         <H2 text={'Peer'} />
-        <div className="bg-blue-50 rounded-8 px-16 py-12 mb-10">
+        <div className="bg-blue-50 rounded-[8px] px-[16px] py-[12px] mb-[10px]">
           讓 B 元素根據 A 元素的狀態變化而改變樣式
         </div>
         <div>
           <input type="checkbox" className="peer hidden" id="toggle" />
-          <label htmlFor="toggle" className="block p-4 border-(1 solid blue-300) peer-checked:(bg-blue-300)">
+          <label htmlFor="toggle" className="block border-(1 solid blue-300) peer-checked:(bg-blue-300) p-[4px]">
           B 元素 (peer-checked)
           </label>
         </div>
@@ -423,11 +408,11 @@ const Usage: React.FC<UsageProps> = () => {
         </div>
 
         <H2 text={'Compile class transformer'} />
-        <div className=":uno: bg-blue-300 text-white rounded-8 px-18 py-8 mb-10">class 最前方加入「:uno:」瀏覽器預覽亂數顯示 class</div>
-        <div className="bg-blue-300 text-white rounded-8 px-18 py-8">瀏覽器預覽正常顯示 class</div>
+        <div className=":uno: bg-blue-300 text-white rounded-[8px] px-[18px] py-[8px] mb-[10px]">class 最前方加入「:uno:」瀏覽器預覽亂數顯示 class</div>
+        <div className="bg-blue-300 text-white rounded-[8px] px-[18px] py-[8px]">瀏覽器預覽正常顯示 class</div>
 
         <H2 text={'Variant group transformer'} />
-        <div className="hover:(bg-blue-300 text-white) font-(medium base) rounded-8 px-18 py-8">class 合併寫法</div>
+        <div className="hover:(bg-blue-300 text-white) font-(medium base) rounded-[8px] px-[18px] py-[8px]">class 合併寫法</div>
 
         <H2 text={'Ratio image'} />
         <div className="w-50%">
@@ -437,13 +422,13 @@ const Usage: React.FC<UsageProps> = () => {
         </div>
 
         <H2 text={'Background image'} />
-        <div className="bgi-[test.jpg] bg-cover w-100 h-100"></div>
+        <div className="bgi-[test.jpg] bg-cover w-[100px] h-[100px]"></div>
 
         <H2 text={'vw 計算'} />
-        <div className="vw-width-[500] bg-blue-300 text-white rounded-8 px-18 py-8">可使用 width、margin、padding、height、fontSize</div>
+        <div className="vw-width-[500] bg-blue-300 text-white rounded-[8px] px-[18px] py-[8px]">可使用 width、margin、padding、height、fontSize</div>
 
-        <div className="mt-64 mb-32">
-          <div className="b-b-dotted b-blue-300 border-width-4 mb-4"></div>
+        <div className="mt-[64px] mb-[32px]">
+          <div className="b-b-dotted b-blue-300 border-width-4 mb-[4px]"></div>
           <div className="b-b-dotted b-blue-300 border-width-4"></div>
         </div>
 
@@ -466,11 +451,11 @@ const Usage: React.FC<UsageProps> = () => {
         ]} />
 
         <H2 text={'Pagination'} />
-        <Pagination currentPage={1} totalPages={10} onPageChange={() => {}} />
+        <Pagination currentPage={5} totalPages={10} onPageChange={() => {}} />
 
         <H2 text={'Btn'} />
-        <div className="flex items-center gap-8 mb-8">
-          <button type="button" className="inline-flex flex-justify-center items-center border-1 border-solid bg-main text-white rounded-4 px-14 py-10 u-transition-ease @hover:(u-transition-ease)">按鈕</button>
+        <div className="flex items-center gap-[8px] mb-[8px]">
+          <button type="button" className="inline-flex flex-justify-center items-center border-1 border-solid bg-main text-white rounded-[4px] px-[14px] py-[10px] u-transition-ease @hover:(u-transition-ease)">按鈕</button>
         </div>
 
         <H2 text={'Tag'} />
@@ -611,7 +596,7 @@ const Usage: React.FC<UsageProps> = () => {
 
         {/* TODO */}
         <H2 text={'Modal'} />
-        <button type="button" className="rounded-4 bg-main text-white p-8" onClick={() => {
+        <button type="button" className="bg-main text-white rounded-[4px] p-[8px]" onClick={() => {
           dispatch(
             showModal({
               type: 'msg',
@@ -625,7 +610,7 @@ const Usage: React.FC<UsageProps> = () => {
           )
         }}>外捲軸 modal</button>
         ｜
-        <button type="button" className="rounded-4 bg-main text-white p-8" onClick={() => {
+        <button type="button" className="bg-main text-white rounded-[4px] p-[8px]" onClick={() => {
           dispatch(
             showModal({
               type: 'inner',
@@ -644,8 +629,8 @@ const Usage: React.FC<UsageProps> = () => {
         <H2 text={'新式編輯器'} />
         <NewEditor />
 
-        <div className="mt-64 mb-32">
-          <div className="b-b-dotted b-blue-300 border-width-4 mb-[4]"></div>
+        <div className="mt-[64px] mb-[32px]">
+          <div className="b-b-dotted b-blue-300 border-width-4 mb-[4px]"></div>
           <div className="b-b-dotted b-blue-300 border-width-4"></div>
         </div>
 
@@ -655,24 +640,24 @@ const Usage: React.FC<UsageProps> = () => {
         <H1 text={'Methods'} />
 
         <H2 text={'ScrollToTop'} />
-        <button type="button" className="text-white bg-main rounded-4 p-4" onClick={() => scrollToTop({ top: 500 })}>scrollToTop</button>
+        <button type="button" className="text-white bg-main rounded-[4px] p-[4px]" onClick={() => scrollToTop({ top: 500 })}>scrollToTop</button>
 
         <H2 text={'ObserveFade'} />
-        <div className="flex gap-10">
-          <div className="w-200 h-200 bg-blue-300" 
+        <div className="flex gap-[10px]">
+          <div className="w-[200px] h-[200px] bg-blue-300" 
             data-fade="in" 
             data-fade-duration="800" 
             data-fade-delay="100"
             data-fade-once="false"
           >
           </div>
-          <div className="w-200 h-200 bg-blue-300"
+          <div className="w-[200px] h-[200px] bg-blue-300"
             odata-fade="up" 
             data-fade-duration="800" 
             data-fade-delay="200"
             >
           </div>
-          <div className="w-200 h-200 bg-blue-300"
+          <div className="w-[200px] h-[200px] bg-blue-300"
             odata-fade="up" 
             data-fade-duration="800" 
             data-fade-delay="300"
@@ -681,68 +666,68 @@ const Usage: React.FC<UsageProps> = () => {
         </div>
 
         <H2 text={'Share'} />
-        <div className="flex gap-10">
-          <button type="button" className="text-white bg-main rounded-4 p-4" onClick={copyUrl}>copy</button>
-          <button type="button" className="text-white bg-main rounded-4 p-4" onClick={() => shareSocial('fb')}>fb share</button>
-          <button type="button" className="text-white bg-main rounded-4 p-4" onClick={() => shareSocial('line')}>line share</button>
-          <button type="button" className="text-white bg-main rounded-4 p-4" onClick={() => shareSocial('x')}>x share</button>
+        <div className="flex gap-[10px]">
+          <button type="button" className="text-white bg-main rounded-[4px] p-[4px]" onClick={copyUrl}>copy</button>
+          <button type="button" className="text-white bg-main rounded-[4px] p-[4px]" onClick={() => shareSocial('fb')}>fb share</button>
+          <button type="button" className="text-white bg-main rounded-[4px] p-[4px]" onClick={() => shareSocial('line')}>line share</button>
+          <button type="button" className="text-white bg-main rounded-[4px] p-[4px]" onClick={() => shareSocial('x')}>x share</button>
         </div>
 
         <H2 text={'Marquee'} />
-        <div className="flex flex-(items-center) gap-10 overflow-x-hidden js-marquee">
+        <div className="flex flex-(items-center) gap-[10px] overflow-x-hidden js-marquee">
           <div>
-            <div className="w-700 h-300 bg-blue-100 u-flex-center u-transition-ease">item1</div>
+            <div className="w-[700px] h-[300px] bg-blue-100 u-flex-center u-transition-ease">item1</div>
           </div>
           <div>
-            <div className="w-700 h-300 bg-blue-100 u-flex-center u-transition-ease">item2</div>
+            <div className="w-[700px] h-[300px] bg-blue-100 u-flex-center u-transition-ease">item2</div>
           </div>
           <div>
-            <div className="w-700 h-300 bg-blue-100 u-flex-center u-transition-ease">item3</div>
+            <div className="w-[700px] h-[300px] bg-blue-100 u-flex-center u-transition-ease">item3</div>
           </div>
         </div>
-        <div className="flex gap-10 mt-10">
-          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={stopMarquee}>暫停</button>
-          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={startMarquee}>開始</button>
-          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={refreshMarquee}>更新</button>
-          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={prevMarquee}>prev</button>
-          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={nextMarquee}>next</button>
+        <div className="flex gap-[10px] mt-[10px]">
+          <button type="button" className="bg-main text-white rounded-[4px] p-[8px]" onClick={stopMarquee}>暫停</button>
+          <button type="button" className="bg-main text-white rounded-[4px] p-[8px]" onClick={startMarquee}>開始</button>
+          <button type="button" className="bg-main text-white rounded-[4px] p-[8px]" onClick={refreshMarquee}>更新</button>
+          <button type="button" className="bg-main text-white rounded-[4px] p-[8px]" onClick={prevMarquee}>prev</button>
+          <button type="button" className="bg-main text-white rounded-[4px] p-[8px]" onClick={nextMarquee}>next</button>
         </div>
 
         <H2 text={'Cursor'} />
-        <div className="w-300 h-300 bg-blue-100 u-flex-center flex-col gap-10" data-cursor-area="0">
-          <a href="#!" className="rounded-4 bg-blue-500 text-white p-8">連結</a>
-          <button type="button" className="rounded-4 bg-blue-500 text-white p-8">按鈕</button>
-          <div className="w-100 h-100 bg-blue-300 u-flex-center text-white" data-cursor-box>區域</div>
+        <div className="w-[300px] h-[300px] bg-blue-100 u-flex-center flex-col gap-[10px]" data-cursor-area="0">
+          <a href="#!" className="bg-blue-500 text-white rounded-[4px] p-[8px]">連結</a>
+          <button type="button" className="bg-blue-500 text-white rounded-[4px] p-[8px]">按鈕</button>
+          <div className="w-[100px] h-[100px] bg-blue-300 u-flex-center text-white" data-cursor-box>區域</div>
         </div>
-        <div className="w-30 h-30 rounded-full bg-white fixed top-0 left-0 pointer-events-none mix-blend-difference opacity-0 transition-[opacity,width,height] duration-200 ease-linear" data-cursor="0"></div>
+        <div className="w-[30px] h-[30px] rounded-full bg-white fixed top-0 left-0 pointer-events-none mix-blend-difference opacity-0 transition-[opacity,width,height] duration-200 ease-linear" data-cursor="0"></div>
 
-        <div className="w-300 h-300 bg-blue-100 u-flex-center flex-col gap-10" data-cursor-area="1">
-          <a href="#!" className="rounded-4 bg-blue-500 text-white p-8">連結</a>
-          <button type="button" className="rounded-4 bg-blue-500 text-white p-8">按鈕</button>
-          <div className="w-200 u-img-contain" data-cursor-img="./src/assets/images/test.jpg"></div>
+        <div className="w-[300px] h-[300px] bg-blue-100 u-flex-center flex-col gap-[10px]" data-cursor-area="1">
+          <a href="#!" className="bg-blue-500 text-white rounded-[4px] p-[8px]">連結</a>
+          <button type="button" className="bg-blue-500 text-white rounded-[4px] p-[8px]">按鈕</button>
+          <div className="u-img-contain w-[200px]" data-cursor-img="./src/assets/images/test.jpg"></div>
         </div>
         <div className="pointer-events-none fixed top-0 left-0 opacity-0 transition-[opacity,width,height] duration-200 ease-linear" data-cursor="1"></div>
 
         <H2 text={'Counter'} />
-        <div className="u-h2 text-blue fw-bold mb-10 js-counter" data-counter="123,567.98"></div>
-        <div className="u-h2 text-blue fw-bold mb-10 js-counter" data-counter="123"></div>
-        <h3 className="inline-block bg-blue-50 rounded-8 px-16 py-12 mb-10">可包含非純數字</h3>
-        <div className="flex gap-10">
-          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={runCounter}>可包含非純數字 run</button>
-          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={stopCounter}>可包含非純數字 stop</button>
-          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={startCounter}>可包含非純數字 start</button>
-          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={resetCounter}>可包含非純數字 reset</button>
-          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={restartCounter}>可包含非純數字 restart</button>
+        <div className="u-h2 text-blue fw-bold mb-[10px] js-counter" data-counter="123,567.98"></div>
+        <div className="u-h2 text-blue fw-bold mb-[10px] js-counter" data-counter="123"></div>
+        <h3 className="inline-block bg-blue-50 rounded-[8px] px-[16px] py-[12px] mb-[10px]">可包含非純數字</h3>
+        <div className="flex gap-[10px]">
+          <button type="button" className="bg-main text-white rounded-[4px] p-[8px]" onClick={runCounter}>可包含非純數字 run</button>
+          <button type="button" className="bg-main text-white rounded-[4px] p-[8px]" onClick={stopCounter}>可包含非純數字 stop</button>
+          <button type="button" className="bg-main text-white rounded-[4px] p-[8px]" onClick={startCounter}>可包含非純數字 start</button>
+          <button type="button" className="bg-main text-white rounded-[4px] p-[8px]" onClick={resetCounter}>可包含非純數字 reset</button>
+          <button type="button" className="bg-main text-white rounded-[4px] p-[8px]" onClick={restartCounter}>可包含非純數字 restart</button>
         </div>
         <br/>
-        <div className="u-h2 text-blue fw-bold mb-10 js-org-counter" data-counter="1000"></div>
-        <h3 className="inline-block bg-blue-50 rounded-8 px-16 py-12 mb-10">只可設定純數字</h3>
-        <div className="flex gap-10">
-          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={runOrgCounter}>只可設定純數字 run</button>
-          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={stopOrgCounter}>只可設定純數字 stop</button>
-          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={startOrgCounter}>只可設定純數字 start</button>
-          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={resetOrgCounter}>只可設定純數字 reset</button>
-          <button type="button" className="rounded-4 bg-main text-white p-8" onClick={restartOrgCounter}>只可設定純數字 restart</button>
+        <div className="u-h2 text-blue fw-bold mb-[10px] js-org-counter" data-counter="1000"></div>
+        <h3 className="inline-block bg-blue-50 rounded-[8px] px-[16px] py-[12px] mb-[10px]">只可設定純數字</h3>
+        <div className="flex gap-[10px]">
+          <button type="button" className="bg-main text-white rounded-[4px] p-[8px]" onClick={runOrgCounter}>只可設定純數字 run</button>
+          <button type="button" className="bg-main text-white rounded-[4px] p-[8px]" onClick={stopOrgCounter}>只可設定純數字 stop</button>
+          <button type="button" className="bg-main text-white rounded-[4px] p-[8px]" onClick={startOrgCounter}>只可設定純數字 start</button>
+          <button type="button" className="bg-main text-white rounded-[4px] p-[8px]" onClick={resetOrgCounter}>只可設定純數字 reset</button>
+          <button type="button" className="bg-main text-white rounded-[4px] p-[8px]" onClick={restartOrgCounter}>只可設定純數字 restart</button>
         </div>
 
       </div>

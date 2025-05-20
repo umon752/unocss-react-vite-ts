@@ -3,7 +3,6 @@ import { Routes, Route } from 'react-router-dom';
 import '@/assets/tsx/helpers/checkBrowser';
 import '@/assets/tsx/helpers/checkDevice';
 import '@/assets/tsx/helpers/setPropertyVh';
-// import scrollFadeInRefGenerater from '@/assets/tsx/helpers/scrollFadeInRefGenerater';
 
 // layout
 import Loading from '@/views/layout/Loading';
@@ -32,6 +31,8 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Usage />} />
             <Route path="form" element={<Form />} />
+            <Route path="reactHookForm" element={<ReactHookForm />} />
+            <Route path="tanstackForm" element={<TanstackForm />} />
             {/* <Route path="/layout" element={<Layout />}>
               <Route index element={<LayoutList />}></Route>
               <Route pat６６h=":id" element={<LayoutContent />}></Route>

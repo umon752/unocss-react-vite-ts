@@ -4,32 +4,12 @@ import transformerDirectives from '@unocss/transformer-directives'
 import { createLocalFontProcessor } from '@unocss/preset-web-fonts/local'
 // import presetRemToPx from '@unocss/preset-rem-to-px'
 
-// px 轉 rem
-function convertPxToRem(px) {
-  const remValue = parseInt(px) / 4;
-  return `${remValue}rem`;
-}
-
 // px 轉 vw
 function convertPxToVw(px: string, designW: string = '1920') {
   const pxValue = parseFloat(px);
   const designWidth = parseFloat(designW);
   const vwValue = (pxValue / designWidth) * 100;
   return `${vwValue}vw`;
-}
-
-// 處理 propertyMap
-function makeCssProperty(propertyMap, direction, value) {
-  const cssProperties = propertyMap[direction];
-  const remValue = convertPxToRem(value);
-  if (Array.isArray(cssProperties)) {
-    return cssProperties.reduce((acc, prop) => {
-      acc[prop] = remValue;
-      return acc;
-    }, {});
-  } else {
-    return { [cssProperties]: remValue };
-  }
 }
 
 // variables
@@ -54,21 +34,21 @@ export default defineConfig({
     {'u-bg-ratio': 'w-100% h-100% u-bg-cover u-absolute-center bg-white'},
     {'u-img-ratio': 'w-100% h-100% u-img-cover u-absolute-center'},
     // 文字
-    {'u-h1': 'font-size-54'}, // 設定字級
-    {'u-h2': 'font-size-38'},
-    {'u-h3': 'font-size-24'},
-    {'u-h4': 'font-size-20'},
-    {'u-h5': 'font-size-18'},
-    {'u-h6': 'font-size-16'},
-    {'u-text': 'font-size-16'},
-    {'u-caption': 'font-size-14'},
+    {'u-h1': 'font-size-[54px]'}, // 設定字級
+    {'u-h2': 'font-size-[38px]'},
+    {'u-h3': 'font-size-[24px]'},
+    {'u-h4': 'font-size-[20px]'},
+    {'u-h5': 'font-size-[18px]'},
+    {'u-h6': 'font-size-[16px]'},
+    {'u-text': 'font-size-[16px]'},
+    {'u-caption': 'font-size-[14px]'},
     {'u-focus-only': 'border-rounded bg-main color-white fixed top-0 left-0 p-2 z-1000 hover:color-white focus:u-transition-ease'}, // 無障礙第一個導盲磚使用(快速跳至主要內容區塊)
-    {'u-icon': 'inline-block w-24 h-24 stroke-width-none stroke-current fill-current u-transition-ease'}, // svg iconfont use
+    {'u-icon': 'inline-block w-[24px] h-[24px] stroke-width-none stroke-current fill-current u-transition-ease'}, // svg iconfont use
     // 隔線
     {'g-container': `container px-${mobGutter} mx-auto max-sm:max-w-100%`},
-    {'g-grid': `grid gap-${mobGutter} md:gap-${deskGutter}`},
+    {'g-grid': `grid gap-[${mobGutter}px] md:gap-[${deskGutter}px]`},
     // {'g-row': `flex flex-wrap gap-[-${mobGutter}] md:gap-[-${deskGutter}]`},
-    {'max-w-gutter': `max-w-[calc(100%-${mobGutter * 2}px)]`},
+    {'u-max-w-gutter': `max-w-[calc(100%-${mobGutter * 2}px)]`},
   ],
   rules: [
     ['img-render-vector', { 'image-rendering': '-webkit-optimize-contrast' }], // chrome 圖片銳利化
@@ -100,98 +80,6 @@ export default defineConfig({
     }], // 寬高比 (ex: u-ratio-[16x9])
     // 覆蓋
     ['h-dvh', { 'height': 'calc(var(--vh, 1vh) * 100)' }], // 100dvh
-    [/^px-(\d+|-\d+|auto)$/, ([_, value]) => {
-      if (value === 'auto') {
-        // Handle the 'auto' case
-        return {
-          'padding-inline-start': value,
-          'padding-inline-end': value,
-        };
-      } else {
-        // Parse the numeric value and convert it
-        const numericValue = parseInt(value, 10);
-        if (!isNaN(numericValue)) {
-          return {
-            'padding-inline-start': convertPxToRem(numericValue),
-            'padding-inline-end': convertPxToRem(numericValue),
-          };
-        }
-      }
-    }], // px-10
-    [/^mx-(\d+|-\d+|auto)$/, ([_, value]) => {
-      if (value === 'auto') {
-        // Handle the 'auto' case
-        return {
-          'margin-inline-start': value,
-          'margin-inline-end': value,
-        };
-      } else {
-        // Parse the numeric value and convert it
-        const numericValue = parseInt(value, 10);
-        if (!isNaN(numericValue)) {
-          return {
-            'margin-inline-start': convertPxToRem(numericValue),
-            'margin-inline-end': convertPxToRem(numericValue),
-          };
-        }
-      }
-    }], // mx-10
-    // [/^left-\[(-?\d+)\]$/, ([_, value]) => ({ 'left': convertPxToRem(value) })],
-    // [/^right-\[(-?\d+)\]$/, ([_, value]) => ({ 'right': convertPxToRem(value) })],
-    // [/^top-\[(-?\d+)\]$/, ([_, value]) => ({ 'top': convertPxToRem(value) })],
-    // [/^bottom-\[(-?\d+)\]$/, ([_, value]) => ({ 'bottom': convertPxToRem(value) })],
-    // [/^translate-x-\[(-?\d+)\]$/, ([_, value]) => ({ 'transform': `translateX(${convertPxToRem(value)})` })],
-    // [/^translate-y-\[(-?\d+)\]$/, ([_, value]) => ({ 'transform': `translateY(${convertPxToRem(value)})` })],
-    // [/^lh-\[(-?\d+)\]$/, ([_, value]) => ({ 'line-height': convertPxToRem(value) })],
-    // [/^ls-\[(-?\d+)\]$/, ([_, value]) => ({ 'letter-spacing': convertPxToRem(value) })],
-    // [/^text-indent-\[(-?\d+)\]$/, ([_, value]) => ({ 'text-indent': convertPxToRem(value) })],
-    // [/^w-\[(-?\d+)\]$/, ([_, value]) => ({ width: convertPxToRem(value) })],
-    // [/^h-\[(-?\d+)\]$/, ([_, value]) => ({ height: convertPxToRem(value) })],
-    // [/^fz-\[(-?\d+)\]$/, ([_, value]) => ({ 'font-size': convertPxToRem(value) })],
-    // [/^gap-\[(-?\d+)\]$/, ([_, value]) => ({ gap: convertPxToRem(value) })],
-    // [/^gap-row-\[(-?\d+)\]$/, ([_, value]) => ({ 'row-gap': convertPxToRem(value) })],
-    // [/^gap-col-\[(-?\d+)\]$/, ([_, value]) => ({ 'column-gap': convertPxToRem(value) })],
-    // [/^p([ltrbyxse]?)-\[(-?\d+)\]$/, ([_, direction, value]) => {
-    //   const propertyMap = {
-    //     '': 'padding',
-    //     'l': 'padding-left',
-    //     'r': 'padding-right',
-    //     't': 'padding-top',
-    //     'b': 'padding-bottom',
-    //     'x': ['padding-inline-start', 'padding-inline-end'],
-    //     'y': ['padding-top', 'padding-bottom'],
-    //     's': ['padding-inline-start'],
-    //     'e': ['padding-inline-end'],
-    //   };
-    //   return makeCssProperty(propertyMap, direction, value);
-    // }],
-    // [/^m([ltrbyxse]?)-\[(-?\d+)\]$/, ([_, direction, value]) => {
-    //   const propertyMap = {
-    //     '': 'margin',
-    //     'l': 'margin-left',
-    //     'r': 'margin-right',
-    //     't': 'margin-top',
-    //     'b': 'margin-bottom',
-    //     'x': ['margin-inline-start', 'margin-inline-end'],
-    //     'y': ['margin-top', 'margin-bottom'],
-    //     's': ['margin-inline-start'],
-    //     'e': ['margin-inline-end'],
-    //   };
-    //   return makeCssProperty(propertyMap, direction, value);
-    // }],
-    // [/^rounded([se]?)-\[(-?\d+)\]$/, ([_, direction, value]) => {
-    //   const propertyMap = {
-    //     '': 'border-radius',
-    //     'ss': 'border-start-start-radius',
-    //     'se': 'border-start-end-radius',
-    //     'es': 'border-end-start-radius',
-    //     'ee': 'border-end-end-radius',
-    //     's': ['border-start-start-radius', 'border-start-end-radius'], // 左邊兩角
-    //     'e': ['border-end-start-radius', 'border-end-end-radius'] // 右邊兩角
-    //   };
-    //   return makeCssProperty(propertyMap, direction, value);
-    // }],
-
   ],
   theme: {
     breakpoints: {
@@ -314,8 +202,8 @@ export default defineConfig({
       },
       extraProperties: {
         'display': 'inline-block',
-        'width': convertPxToRem(24),
-        'height': convertPxToRem(24),
+        'width': '24px',
+        'height': '24px',
       },
     }),
     // presetRemToPx({

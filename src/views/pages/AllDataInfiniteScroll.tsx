@@ -105,7 +105,7 @@ const AllDataInfiniteScroll: React.FC<AllDataInfiniteScrollProps> = () => {
             {data.map((item) => (
               <li
                 key={item.id}
-                className="w-100% h-300 u-flex-center flex-col bg-blue-300 border border-(1 solid white)"
+                className="w-100% h-[300px] u-flex-center flex-col bg-blue-300 border border-(1 solid white)"
               >
                 {item.name}
               </li>
@@ -121,8 +121,8 @@ const AllDataInfiniteScroll: React.FC<AllDataInfiniteScrollProps> = () => {
           </div>
         </div>
       </div>
-      <div className="flex gap-10 mt-10">
-        <button type="button" className="rounded-4 bg-main text-white p-8" onClick={reloadData}>reload</button>
+      <div className="flex gap-[10px] mt-[10px]">
+        <button type="button" className="rounded-[4px] bg-main text-white p-[8px]" onClick={reloadData}>reload</button>
       </div>
     </>
   );

@@ -42,7 +42,7 @@ export const Select: React.FC<SelectProps> = ({
     <div className="relative inline-block w-100%">
       <button
         type="button"
-        className="w-100% u-text flex flex-(items-center justify-between) gap-8 border-(solid 1 gray) rounded-4 cursor-pointer py-8 px-10"
+        className="u-text w-100% flex flex-(items-center justify-between) gap-[8px] border-(solid 1 gray) rounded-[4px] cursor-pointer py-[8px] px-[10px]"
         {...getToggleButtonProps()}
       >
         {selectedItem?.label || placeholder}
@@ -51,7 +51,7 @@ export const Select: React.FC<SelectProps> = ({
 
       <ul
         {...getMenuProps()}
-        className={`absolute z-10 w-100% bg-blue-50 border border-gray-300 rounded-4 border-(solid 1 gray) shadow mt-4 ${
+        className={`absolute z-10 w-100% bg-blue-50 border border-gray-300 rounded-[4px] border-(solid 1 gray) shadow mt-[4px] ${
           isOpen ? '' : 'hidden'
         }`}
       >
@@ -60,7 +60,7 @@ export const Select: React.FC<SelectProps> = ({
             <li
               key={item.value}
               {...getItemProps({ item, index })}
-              className={`p-10 cursor-pointer ${
+              className={`cursor-pointer p-[10px] ${
                 highlightedIndex === index ? 'bg-blue-100' : ''
               }`}
             >

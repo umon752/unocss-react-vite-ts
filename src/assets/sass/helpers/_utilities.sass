@@ -18,16 +18,16 @@
 // 捲軸樣式
 .u-scrollbar
   &::-webkit-scrollbar
-    @apply w-6
+    @apply w-[6px]
 
   &::-webkit-scrollbar-button
-    @apply w-6 h-5
+    @apply w-[6px] h-[5px]
 
   &::-webkit-scrollbar-track
-    @apply bg-light border-0 border-radius-50
+    @apply bg-light border-0 border-radius-[50px]
 
   &::-webkit-scrollbar-thumb
-    @apply bg-black bg-opacity-70 border-0 border-radius-50 hover:bg-black bg-opacity-70
+    @apply bg-black bg-opacity-70 border-0 border-radius-[50px] hover:bg-black bg-opacity-70
 
 
 
@@ -35,10 +35,10 @@
 // 編輯器
 //----------------------------
 .u-editor 
-  @apply pt-20 md:pt-0
+  @apply pt-[20px] md:pt-0
 
   h1,h2,h3,h4,h5,h6 
-    @apply font-bold mb-10 md:mb-20
+    @apply font-bold mb-[10px] md:mb-[20px]
 
   h1 
     @apply u-h1
@@ -68,7 +68,7 @@
     @apply w-full
 
   ul,ol
-    @apply ps-24
+    @apply ps-[24px]
 
   ul
     @apply list-revert

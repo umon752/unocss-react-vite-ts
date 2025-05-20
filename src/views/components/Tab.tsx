@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 // hooks
 import { useDrag } from '@/hooks/useDrag';
 
@@ -27,13 +27,13 @@ const Tab: React.FC<TabListProps> = ({ array = [] }) => {
   };
 
   return (
-    <div className="flex flex-(col) gap-10">
+    <div className="flex flex-(col) gap-[10px]">
       <div>
-        <div className="flex flex-(items-center) gap-6 pb-10 overflow-x-auto u-scrollbar-hidden" ref={targetRef}>
+        <div className="flex flex-(items-center) gap-[6px] pb-[10px] overflow-x-auto u-scrollbar-hidden" ref={targetRef}>
           {array.map((item, index) => (
             <button
               type="button"
-              className={`relative text-center text-nowrap flex-shrink-0 p-10 ${activeIndex === index ? 'bg-blue text-white' : 'bg-blue-200'}`}
+              className={`relative text-center text-nowrap flex-shrink-0 p-[10px] ${activeIndex === index ? 'bg-blue text-white' : 'bg-blue-200'}`}
               key={index}
               onClick={() => toggleTab(index)}
               ref={(el) => {

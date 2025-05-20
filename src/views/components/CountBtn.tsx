@@ -10,13 +10,13 @@ const CountBtn: React.FC<CountProps>  = ({ defaultQty = 0, minQty = 0, maxQty = 
 
   const minusQty = () => {
     if(qty > minQty) {
-      setQty((prev) => prev - 1);
+      setQty((prev) => +prev - 1);
     } 
   }
 
   const plusQty = () => {
     if(qty < maxQty) {
-      setQty((prev) => prev + 1);
+      setQty((prev) => +prev + 1);
     } 
   }
 
@@ -32,9 +32,9 @@ const CountBtn: React.FC<CountProps>  = ({ defaultQty = 0, minQty = 0, maxQty = 
 
   return (
     <div className="flex flex-(items-center)">
-      <button type="button" className={`rounded-4 bg-blue-300 text-white p-8 ${qty <= minQty ? 'pointer-events-none opacity-50' : ''}`} onClick={minusQty}>-</button>
+      <button type="button" className={`bg-blue-300 text-white rounded-[4px] p-[8px] ${qty <= minQty ? 'pointer-events-none opacity-50' : ''}`} onClick={minusQty}>-</button>
       <input type="text" value={qty} className="text-center" onChange={changeQty} />
-      <button type="button" className={`rounded-4 bg-blue-300 text-white p-8 ${qty >= maxQty ? 'pointer-events-none opacity-50' : ''}`} onClick={plusQty}>+</button>
+      <button type="button" className={`bg-blue-300 text-white rounded-[4px] p-[8px] ${qty >= maxQty ? 'pointer-events-none opacity-50' : ''}`} onClick={plusQty}>+</button>
     </div>
   )
 };

@@ -6,11 +6,6 @@
 // :root 
 //   scroll-behavior: initial
 
-html 
-  font-size: 0.25rem
-* 
-  @apply font-size-16
-
 *,
 *::before,
 *::after
@@ -54,10 +49,7 @@ ul
   @apply list-none
 
 h1, h2, h3, h4, h5, h6
-  @apply m-0
-  // +_mix.fz(16)
-  // font-weight: _var.$font-weight-normal
-  // line-height: _var.$line-height-base
+  @apply font-(size-[16px] normal) m-0
 
 // 反白設定
 // ::selection 
