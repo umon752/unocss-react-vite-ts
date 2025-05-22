@@ -33,7 +33,7 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
       );
     } else if ((index === currentPage - displayRange - 1) || (index === currentPage + displayRange + 1)) {
       paginationItems.push(
-        <li className="u-flex-center px-[5px]"><div className="u-flex-center w-[30px] h-[30px] text-dark rounded-full @hover:(text-dark)">...</div></li>
+        <li key={index} className="u-flex-center px-[5px]"><div className="u-flex-center w-[30px] h-[30px] text-dark rounded-full @hover:(text-dark)">...</div></li>
       )
     }
   }

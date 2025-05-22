@@ -35,7 +35,7 @@ const App = () => {
             <Route path="tanstackForm" element={<TanstackForm />} />
             {/* <Route path="/layout" element={<Layout />}>
               <Route index element={<LayoutList />}></Route>
-              <Route pat６６h=":id" element={<LayoutContent />}></Route>
+              <Route path=":id" element={<LayoutContent />}></Route>
             </Route> */}
             <Route path="*" element={<NotFound />}></Route>
           </Routes>
