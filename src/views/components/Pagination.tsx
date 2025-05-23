@@ -6,8 +6,12 @@ type PaginationProps = {
   onPageChange: (page: number) => void;
 };
 
-const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPageChange }) => {
-  if(currentPage > totalPages) {
+const Pagination: React.FC<PaginationProps> = ({
+  currentPage,
+  totalPages,
+  onPageChange,
+}) => {
+  if (currentPage > totalPages) {
     console.error('The current page is greater than the total number of pages');
     return null;
   }
@@ -19,7 +23,8 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
     if (
       index === 1 ||
       index === totalPages ||
-      (index >= currentPage - displayRange && index <= currentPage + displayRange)
+      (index >= currentPage - displayRange &&
+        index <= currentPage + displayRange)
     ) {
       paginationItems.push(
         <li key={index} className="u-flex-center px-[5px]">
@@ -31,10 +36,17 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
           </a>
         </li>
       );
-    } else if ((index === currentPage - displayRange - 1) || (index === currentPage + displayRange + 1)) {
+    } else if (
+      index === currentPage - displayRange - 1 ||
+      index === currentPage + displayRange + 1
+    ) {
       paginationItems.push(
-        <li key={index} className="u-flex-center px-[5px]"><div className="u-flex-center w-[30px] h-[30px] text-dark rounded-full @hover:(text-dark)">...</div></li>
-      )
+        <li key={index} className="u-flex-center px-[5px]">
+          <div className="u-flex-center w-[30px] h-[30px] text-dark rounded-full @hover:(text-dark)">
+            ...
+          </div>
+        </li>
+      );
     }
   }
 
@@ -48,21 +60,37 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
     <nav>
       <ul className="flex flex-justify-center mx-[-5px] mb-0">
         <li className={`u-flex-center px-[5px]`}>
-          <a className={`text-dark u-flex-center @hover:(text-dark) ${currentPage === 1 && 'opacity-50 pointer-event-none'}`} onClick={() => handlePageChange(1)}>第一頁</a>
+          <a
+            className={`text-dark u-flex-center @hover:(text-dark) ${currentPage === 1 && 'opacity-50 pointer-event-none'}`}
+            onClick={() => handlePageChange(1)}
+          >
+            第一頁
+          </a>
         </li>
         <li className="u-flex-center px-[5px]">
-          <a className="u-flex-center w-[30px] h-[30px] text-dark rounded-full @hover:(text-dark)" onClick={() => handlePageChange(currentPage - 1)}>
+          <a
+            className="u-flex-center w-[30px] h-[30px] text-dark rounded-full @hover:(text-dark)"
+            onClick={() => handlePageChange(currentPage - 1)}
+          >
             <span className="i-iconamoon:arrow-left-2-light"></span>
           </a>
         </li>
         {paginationItems}
         <li className="u-flex-center px-[5px]">
-          <a className="u-flex-center w-[30px] h-[30px] text-dark rounded-full @hover:(text-dark)" onClick={() => handlePageChange(currentPage + 1)}>
+          <a
+            className="u-flex-center w-[30px] h-[30px] text-dark rounded-full @hover:(text-dark)"
+            onClick={() => handlePageChange(currentPage + 1)}
+          >
             <span className="i-iconamoon:arrow-right-2-light"></span>
           </a>
         </li>
         <li className="u-flex-center px-[5px]">
-          <a className={`u-flex-center text-dark @hover:(text-dark) ${currentPage === 1 && 'opacity-50 pointer-event-none'}`} onClick={() => handlePageChange(totalPages)}>最後一頁</a>
+          <a
+            className={`u-flex-center text-dark @hover:(text-dark) ${currentPage === 1 && 'opacity-50 pointer-event-none'}`}
+            onClick={() => handlePageChange(totalPages)}
+          >
+            最後一頁
+          </a>
         </li>
       </ul>
     </nav>

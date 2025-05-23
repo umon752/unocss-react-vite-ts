@@ -5,20 +5,24 @@ type CountProps = {
   minQty: number;
   maxQty: number;
 };
-const CountBtn: React.FC<CountProps>  = ({ defaultQty = 0, minQty = 0, maxQty = 0 }) => {
+const CountBtn: React.FC<CountProps> = ({
+  defaultQty = 0,
+  minQty = 0,
+  maxQty = 0,
+}) => {
   const [qty, setQty] = useState(defaultQty);
 
   const minusQty = () => {
-    if(qty > minQty) {
+    if (qty > minQty) {
       setQty((prev) => +prev - 1);
-    } 
-  }
+    }
+  };
 
   const plusQty = () => {
-    if(qty < maxQty) {
+    if (qty < maxQty) {
       setQty((prev) => +prev + 1);
-    } 
-  }
+    }
+  };
 
   const changeQty = (e: ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.currentTarget.value);
@@ -26,17 +30,36 @@ const CountBtn: React.FC<CountProps>  = ({ defaultQty = 0, minQty = 0, maxQty = 
     if (!isNaN(value) && value >= minQty && value <= maxQty) {
       setQty(value);
     } else {
-      console.error(`Invalid input: ${e.currentTarget.value} is not a valid number`);
+      console.error(
+        `Invalid input: ${e.currentTarget.value} is not a valid number`
+      );
     }
-  }
+  };
 
   return (
     <div className="flex flex-(items-center)">
-      <button type="button" className={`bg-blue-300 text-white rounded-[4px] p-[8px] ${qty <= minQty ? 'pointer-events-none opacity-50' : ''}`} onClick={minusQty}>-</button>
-      <input type="text" value={qty} className="text-center" onChange={changeQty} />
-      <button type="button" className={`bg-blue-300 text-white rounded-[4px] p-[8px] ${qty >= maxQty ? 'pointer-events-none opacity-50' : ''}`} onClick={plusQty}>+</button>
+      <button
+        type="button"
+        className={`bg-blue-300 text-white rounded-[4px] p-[8px] ${qty <= minQty ? 'pointer-events-none opacity-50' : ''}`}
+        onClick={minusQty}
+      >
+        -
+      </button>
+      <input
+        type="text"
+        value={qty}
+        className="text-center"
+        onChange={changeQty}
+      />
+      <button
+        type="button"
+        className={`bg-blue-300 text-white rounded-[4px] p-[8px] ${qty >= maxQty ? 'pointer-events-none opacity-50' : ''}`}
+        onClick={plusQty}
+      >
+        +
+      </button>
     </div>
-  )
+  );
 };
 
 export default CountBtn;

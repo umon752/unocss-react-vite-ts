@@ -29,7 +29,10 @@ const Tab: React.FC<TabListProps> = ({ array = [] }) => {
   return (
     <div className="flex flex-(col) gap-[10px]">
       <div>
-        <div className="flex flex-(items-center) gap-[6px] pb-[10px] overflow-x-auto u-scrollbar-hidden" ref={targetRef}>
+        <div
+          className="flex flex-(items-center) gap-[6px] pb-[10px] overflow-x-auto u-scrollbar-hidden"
+          ref={targetRef}
+        >
           {array.map((item, index) => (
             <button
               type="button"
@@ -47,9 +50,12 @@ const Tab: React.FC<TabListProps> = ({ array = [] }) => {
           ))}
         </div>
 
-        <div className="relative grid place-items-start">            
+        <div className="relative grid place-items-start">
           {array.map((item, index) => (
-            <div className={`grid-area-[1/1/2/2] overflow-x-auto u-transition-ease ${activeIndex === index ? 'block' : 'hidden'} ${showIndex === index ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`} key={index}>
+            <div
+              className={`grid-area-[1/1/2/2] overflow-x-auto u-transition-ease ${activeIndex === index ? 'block' : 'hidden'} ${showIndex === index ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+              key={index}
+            >
               {item.text}
             </div>
           ))}

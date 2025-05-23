@@ -17,7 +17,11 @@ const NewEditor: React.FC<NewEditorProps> = () => {
         <div id="T2">
           <div className="g-grid grid-cols-1 md:grid-cols-2">
             <div>
-              <img className="w-full" src="./src/assets/images/test.jpg" alt="" />
+              <img
+                className="w-full"
+                src="./src/assets/images/test.jpg"
+                alt=""
+              />
             </div>
             <div>
               <Editor />
@@ -28,7 +32,11 @@ const NewEditor: React.FC<NewEditorProps> = () => {
         <div id="T3">
           <div className="g-grid grid-cols-1 md:grid-cols-2">
             <div className="md:order-2">
-              <img className="w-full" src="./src/assets/images/test.jpg" alt="" />
+              <img
+                className="w-full"
+                src="./src/assets/images/test.jpg"
+                alt=""
+              />
             </div>
             <div>
               <Editor />
@@ -39,7 +47,11 @@ const NewEditor: React.FC<NewEditorProps> = () => {
         <div id="T4">
           <div className="g-grid">
             <div>
-              <img className="w-full" src="./src/assets/images/test.jpg" alt="" />
+              <img
+                className="w-full"
+                src="./src/assets/images/test.jpg"
+                alt=""
+              />
             </div>
           </div>
         </div>
@@ -49,10 +61,18 @@ const NewEditor: React.FC<NewEditorProps> = () => {
         <div id="T6">
           <div className="g-grid grid-cols-1 md:grid-cols-2">
             <div>
-              <img className="w-full" src="./src/assets/images/test.jpg" alt="" />
+              <img
+                className="w-full"
+                src="./src/assets/images/test.jpg"
+                alt=""
+              />
             </div>
             <div>
-              <img className="w-full" src="./src/assets/images/test.jpg" alt="" />
+              <img
+                className="w-full"
+                src="./src/assets/images/test.jpg"
+                alt=""
+              />
             </div>
           </div>
         </div>

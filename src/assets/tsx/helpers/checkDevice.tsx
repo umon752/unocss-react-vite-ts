@@ -4,7 +4,7 @@
 const checkDevice = () => {
   const usrAgent = navigator.userAgent;
   const isTouchDevice = 'ontouchstart' in document.documentElement;
-  
+
   if (isTouchDevice) {
     // 是觸控裝置
     document.body.classList.add('is-touch');
@@ -28,7 +28,7 @@ const checkDevice = () => {
   // } else {
   //   // 支援 hover 狀態
   // }
-}
+};
 
 // init
 (function () {

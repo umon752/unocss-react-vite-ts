@@ -3,14 +3,9 @@ import { useEffect } from 'react';
 type FooterProps = {};
 
 const Footer: React.FC<FooterProps> = () => {
+  useEffect(() => {}, []);
 
-  useEffect(() => {
-  }, []);
+  return <></>;
+};
 
-  return (
-    <>
-    </>
-  )
-}
-
-export default Footer
+export default Footer;

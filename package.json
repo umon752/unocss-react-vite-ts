@@ -6,7 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
+    "lint:check": "eslint .",
+    "lint": "eslint . --fix",
+    "format:check": "prettier . --check --ignore-unknown",
+    "format": "prettier . --write --ignore-unknown",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -33,10 +36,13 @@
     "@unocss/transformer-variant-group": "^66.1.0",
     "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9.26.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-prettier": "^5.4.0",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^15.15.0",
+    "prettier": "^3.5.3",
     "sass-embedded": "^1.85.1",
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.32.0",

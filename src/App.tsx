@@ -17,8 +17,6 @@ import NotFound from '@/views/pages/NotFound';
 import Toast from '@/views/components/Toast';
 import Modal from '@/views/components/Modal';
 
-
-
 const App = () => {
   return (
     <>
@@ -45,7 +43,7 @@ const App = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;

@@ -32,7 +32,7 @@ export const useCounter = (options: CounterOptions = {}): CounterMethods => {
       thousandComma: false,
     },
     done: () => {},
-  }
+  };
 
   const counter = options.selector ?? defaultOptions.selector;
   const counterStates = {
@@ -41,7 +41,7 @@ export const useCounter = (options: CounterOptions = {}): CounterMethods => {
     timerId: null,
     singleTextArray: [],
     isStop: false,
-  }
+  };
 
   counter.textContent = counterStates.startNum.toString();
 
@@ -59,18 +59,26 @@ export const useCounter = (options: CounterOptions = {}): CounterMethods => {
     const isPureNum = !isNaN(Number(counterText));
     const randomMode = {
       enable: options.randomMode?.enable ?? defaultOptions.randomMode.enable,
-      thousandComma: options.randomMode?.thousandComma ?? defaultOptions.randomMode.thousandComma,
+      thousandComma:
+        options.randomMode?.thousandComma ??
+        defaultOptions.randomMode.thousandComma,
     };
     if (!randomMode.enable && isPureNum) {
-      if(isDone) {
-        counter.textContent = randomMode.thousandComma ? setThousandComma(parseInt(counterText)) : parseInt(counterText).toString();
+      if (isDone) {
+        counter.textContent = randomMode.thousandComma
+          ? setThousandComma(parseInt(counterText))
+          : parseInt(counterText).toString();
       } else {
-        counter.textContent = randomMode.thousandComma ? setThousandComma(Math.floor(counterStates.currentNum)) : Math.floor(counterStates.currentNum).toString();
+        counter.textContent = randomMode.thousandComma
+          ? setThousandComma(Math.floor(counterStates.currentNum))
+          : Math.floor(counterStates.currentNum).toString();
       }
     } else {
-      const str = counterStates.singleTextArray.map((item) => {
-        return isDone ? item.orgText : (item.randomText || '');
-      }).join('');
+      const str = counterStates.singleTextArray
+        .map((item) => {
+          return isDone ? item.orgText : item.randomText || '';
+        })
+        .join('');
       counter.textContent = str;
     }
   };
@@ -83,9 +91,10 @@ export const useCounter = (options: CounterOptions = {}): CounterMethods => {
     let delayTimestamp = 0;
 
     const runCount = (timestamp: number): void => {
-      const increasmentPerFrame = (domNum - counterStates.startNum) / (duration / 16.67);
+      const increasmentPerFrame =
+        (domNum - counterStates.startNum) / (duration / 16.67);
       counterStates.currentNum = counterStates.currentNum + increasmentPerFrame;
-      
+
       if (counterStates.currentNum < domNum) {
         if (!counterStates.isStop) {
           if (timestamp - delayTimestamp >= delay) {
@@ -131,11 +140,14 @@ export const useCounter = (options: CounterOptions = {}): CounterMethods => {
             counterStates.singleTextArray[i].durationTimestamp = timestamp;
           }
 
-          const elapsedTime = timestamp - (counterStates.singleTextArray[i].durationTimestamp || 0);
+          const elapsedTime =
+            timestamp -
+            (counterStates.singleTextArray[i].durationTimestamp || 0);
 
           if (elapsedTime < duration) {
             if (!counterStates.isStop) {
-              counterStates.singleTextArray[i].randomText = getRandomNum(maxNum).toString();
+              counterStates.singleTextArray[i].randomText =
+                getRandomNum(maxNum).toString();
 
               if (timestamp - delayTimestamp >= delay) {
                 setTimeout(() => {
@@ -154,7 +166,8 @@ export const useCounter = (options: CounterOptions = {}): CounterMethods => {
             }
           }
         };
-        counterStates.singleTextArray[i].timerId = requestAnimationFrame(runCount);
+        counterStates.singleTextArray[i].timerId =
+          requestAnimationFrame(runCount);
       } else {
         counterStates.singleTextArray[i].randomText = text;
       }
@@ -170,7 +183,7 @@ export const useCounter = (options: CounterOptions = {}): CounterMethods => {
     if (!randomMode.enable && !isPureNum) {
       console.warn('randomMode enable cannot be used false');
     }
-    
+
     if (!randomMode.enable && isPureNum) {
       runSequential();
     } else {

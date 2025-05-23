@@ -17,10 +17,12 @@ export const Select: React.FC<SelectProps> = ({
 }) => {
   const {
     field: { value, onChange },
-  } = control ? useController({ 
-    name, 
-    control,
-  }) : { field: { value: '', onChange: () => {} } };
+  } = control
+    ? useController({
+        name,
+        control,
+      })
+    : { field: { value: '', onChange: () => {} } };
 
   const {
     isOpen,
@@ -46,7 +48,9 @@ export const Select: React.FC<SelectProps> = ({
         {...getToggleButtonProps()}
       >
         {selectedItem?.label || placeholder}
-        <span className={`i-material-symbols:keyboard-arrow-down-rounded flex-(shrink-0) u-transition-ease ${isOpen ? 'rotate-180' : ''}`}></span>
+        <span
+          className={`i-material-symbols:keyboard-arrow-down-rounded flex-(shrink-0) u-transition-ease ${isOpen ? 'rotate-180' : ''}`}
+        ></span>
       </button>
 
       <ul

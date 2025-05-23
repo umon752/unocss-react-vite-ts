@@ -26,7 +26,7 @@ const checkBrowser = () => {
   }
 
   document.body.classList.add(usrBrowser);
-}
+};
 
 // init
 (function () {

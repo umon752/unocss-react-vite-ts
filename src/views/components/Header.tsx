@@ -22,7 +22,12 @@ const Header: React.FC<HeaderProps> = ({ img, content }) => {
   return (
     <>
       <header className={headerClass}>
-        <DefaultImg src={img.url} defaultSrc={img.defaultUrl} alt={img.alt} className={`u-img-ratio z--1 ${imgClass}`} />
+        <DefaultImg
+          src={img.url}
+          defaultSrc={img.defaultUrl}
+          alt={img.alt}
+          className={`u-img-ratio z--1 ${imgClass}`}
+        />
         <div className="g-container">
           <h2 className="u-h2">{content.title}</h2>
         </div>

@@ -94,13 +94,16 @@ const AllDataInfiniteScroll: React.FC<AllDataInfiniteScrollProps> = () => {
 
   const reloadData = () => {
     instancesRef.current.reload(3);
-  }
+  };
 
   return (
     <>
       <div className="w-50% h-50vh relative overflow-hidden">
         {/* 使用 ref 绑定 DOM 元素 */}
-        <div ref={scrollTargetRef} className="overflow-y-auto h-100% js-scroll-target">
+        <div
+          ref={scrollTargetRef}
+          className="overflow-y-auto h-100% js-scroll-target"
+        >
           <ul ref={renderTargetRef} className="flex flex-col js-render-target">
             {data.map((item) => (
               <li
@@ -116,13 +119,22 @@ const AllDataInfiniteScroll: React.FC<AllDataInfiniteScrollProps> = () => {
             loading...
           </div>
 
-          <div ref={loadTargetRef} className="w-100% h-300 bg-main u-flex-center js-load-target">
+          <div
+            ref={loadTargetRef}
+            className="w-100% h-300 bg-main u-flex-center js-load-target"
+          >
             觸發載入的目標
           </div>
         </div>
       </div>
       <div className="flex gap-[10px] mt-[10px]">
-        <button type="button" className="rounded-[4px] bg-main text-white p-[8px]" onClick={reloadData}>reload</button>
+        <button
+          type="button"
+          className="rounded-[4px] bg-main text-white p-[8px]"
+          onClick={reloadData}
+        >
+          reload
+        </button>
       </div>
     </>
   );

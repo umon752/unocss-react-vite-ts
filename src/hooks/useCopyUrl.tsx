@@ -12,12 +12,15 @@ export const useCopyUrl = () => {
     dispatch(
       showToast({
         text: '已複製',
-        icon: 'i-material-symbols:content-copy'
+        icon: 'i-material-symbols:content-copy',
       })
     );
   };
 
-  const securedCopyToClipboard = async (text: string, dispatch: AppDispatch): Promise<void> => {
+  const securedCopyToClipboard = async (
+    text: string,
+    dispatch: AppDispatch
+  ): Promise<void> => {
     try {
       await navigator.clipboard.writeText(text);
       showCopyToast(dispatch);
@@ -28,15 +31,18 @@ export const useCopyUrl = () => {
     }
   };
 
-  const unsecuredCopyToClipboard = (text: string, dispatch: AppDispatch): void => {
+  const unsecuredCopyToClipboard = (
+    text: string,
+    dispatch: AppDispatch
+  ): void => {
     const textArea = document.createElement('textarea');
     textArea.value = text;
-    
+
     // 設置樣式使其不可見
     textArea.style.position = 'fixed';
     textArea.style.left = '-999999px';
     textArea.style.top = '-999999px';
-    
+
     document.body.appendChild(textArea);
     textArea.focus();
     textArea.select();
@@ -57,7 +63,7 @@ export const useCopyUrl = () => {
 
   const copyUrl = (): void => {
     const copyUrl = window.location.href;
-    
+
     if (window.isSecureContext && navigator.clipboard) {
       securedCopyToClipboard(copyUrl, dispatch);
     } else {

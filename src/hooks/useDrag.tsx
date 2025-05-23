@@ -18,7 +18,7 @@ export const useDrag = (
 
   const updateBtnPointerEvents = (value: 'auto' | 'none'): void => {
     if (!btns?.current) return;
-    
+
     btns.current.forEach((btn) => {
       if (!btn) return;
       btn.style.pointerEvents = value;

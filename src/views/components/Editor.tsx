@@ -17,15 +17,18 @@ const Editor: React.FC<EditorProps> = () => {
           <i>斜體文字</i>
         </p>
         <ul>
-          <li>項目文字
+          <li>
+            項目文字
             <ul>
               <li>第二層項目文字</li>
               <li>第二層項目文字</li>
-              <li>第二層項目文字
+              <li>
+                第二層項目文字
                 <ul>
                   <li>第三層項目文字</li>
                   <li>第三層項目文字</li>
-                  <li>第三層項目文字
+                  <li>
+                    第三層項目文字
                     <ul>
                       <li>第四層項目文字</li>
                       <li>第四層項目文字</li>
@@ -42,11 +45,13 @@ const Editor: React.FC<EditorProps> = () => {
         <ol>
           <li>編號文字</li>
           <li>編號文字</li>
-          <li>編號文字
+          <li>
+            編號文字
             <ul>
               <li>第三層項目文字</li>
               <li>第三層項目文字</li>
-              <li>第三層項目文字
+              <li>
+                第三層項目文字
                 <ul>
                   <li>第四層項目文字</li>
                   <li>第四層項目文字</li>

@@ -13,18 +13,18 @@ const Toast: React.FC<ToastProps> = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if(toast.active) {
+    if (toast.active) {
       setTimeout(() => {
-        dispatch(
-          hideToast()
-        )
-      }, 3000)
+        dispatch(hideToast());
+      }, 3000);
     }
   }, [toast]);
 
   return (
     <>
-      <div className={`min-w-[214px] fixed top-50% left-50% translate-x--50% translate-y--40% bg-white rounded-[8px] flex flex-col items-center shadow-md py-[27px] px-[42px] opacity-0 pointer-events-none z--99 u-transition-ease ${toast.active && 'opacity-100 pointer-events-auto translate-x--50% translate-y--50% z-9999 u-transition-ease'}`}>
+      <div
+        className={`min-w-[214px] fixed top-50% left-50% translate-x--50% translate-y--40% bg-white rounded-[8px] flex flex-col items-center shadow-md py-[27px] px-[42px] opacity-0 pointer-events-none z--99 u-transition-ease ${toast.active && 'opacity-100 pointer-events-auto translate-x--50% translate-y--50% z-9999 u-transition-ease'}`}
+      >
         <div className={`${!toast.icon && 'none'} `}>
           <div className={`${toast.icon} text-blue-300`}></div>
         </div>

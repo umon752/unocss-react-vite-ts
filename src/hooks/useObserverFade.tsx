@@ -31,13 +31,13 @@ export const useObserverFade = (
     const fadeInKeyframes: Keyframe[] = [{ opacity: 0 }, { opacity: 1 }];
     const fadeUpKeyframes: Keyframe[] = [
       { opacity: 0, transform: 'translateY(20%)' },
-      { opacity: 1, transform: 'translateY(0)' }
+      { opacity: 1, transform: 'translateY(0)' },
     ];
 
     const fadeTiming: KeyframeAnimationOptions = {
       duration: 500,
       easing: 'ease',
-      fill: 'both'
+      fill: 'both',
     };
 
     const fadeType: Record<FadeType, Keyframe[]> = {
@@ -46,14 +46,15 @@ export const useObserverFade = (
     };
 
     const setFadeOptions = () => {
-      fadeElementsRef.current = document.querySelectorAll<FadeElement>(selector);
+      fadeElementsRef.current =
+        document.querySelectorAll<FadeElement>(selector);
 
       fadeElementsRef.current.forEach((el) => {
         if (!elementSet.current.has(el)) {
           elementSet.current.add(el);
           const fade = el.dataset.fade || 'in';
-          const once = el.dataset.fadeOnce 
-            ? JSON.parse(el.dataset.fadeOnce) 
+          const once = el.dataset.fadeOnce
+            ? JSON.parse(el.dataset.fadeOnce)
             : true;
           const timing = { ...fadeTiming, ...options };
 
@@ -71,7 +72,7 @@ export const useObserverFade = (
       const intersection = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           const animation = entry.target.animate(fadeType[fade], timing);
-          
+
           if (entry.intersectionRatio > 0) {
             animation.play();
           } else {
